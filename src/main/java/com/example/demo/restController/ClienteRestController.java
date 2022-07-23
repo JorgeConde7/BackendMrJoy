@@ -1,8 +1,8 @@
 package com.example.demo.restController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,58 +16,51 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Cliente;
 import com.example.demo.service.ClienteService;
 
-
+@CrossOrigin(origins= {"http://localhost:4401"})
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/rest-v1")
+@RequestMapping("/api")
 public class ClienteRestController {
 	
 	@Autowired
 	private ClienteService clienteService;
-
-	@GetMapping("listar-clientes")
-    public ResponseEntity<?>listarCliente(){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.listarCliente());
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"Error\"*:\"Error. Por favor intente mas tarde.\"}");
-        }
-    }
 	
-	@GetMapping("listar-clientes/{id}")
-    public ResponseEntity<?> getOne(@PathVariable Integer id){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.findById(id));
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"Error\"*:\"No existe Cliente\"}");
-        }
-    }
+	@GetMapping("/clientes")
+	public List<Cliente> index(){
+		return clienteService.findAll();
+	}
 	
-	@PostMapping("guardar-cliente")
-    public ResponseEntity<?> save (@RequestBody  Cliente model){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.save(model));
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"Error\"*:\"Error. Por favor intente mas tarde.\"}");
-        }
-    }
+	//Método para mostrar por Id:
+	@GetMapping("/clientes/{id}")
+	public Cliente show(@PathVariable Long id) {
+		return clienteService.findById(id);
+	}
 	
-	@PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Integer id,@RequestBody Cliente cliente){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.update(id,cliente));
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"Error\"*:\"Error. Por favor intente mas tarde.\"}");
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete( @PathVariable Integer id){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.delete(id));
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"Error\"*:\"Error. Por favor intente mas tarde.\"}");
-        }
-    }
+	//Método para crear:
+	@PostMapping("/clientes")
+	public Cliente create(@RequestBody Cliente cliente) {
+		return clienteService.save(cliente);
+	}
+	
+	//Método para actualizar:
+	@PutMapping("/clientes/{id}")
+	public Cliente update(@RequestBody Cliente cliente,@PathVariable Long id) {
+		Cliente ClienteActual = clienteService.findById(id);
+		
+		ClienteActual.setNombres(cliente.getNombres());
+		ClienteActual.setApellidos(cliente.getApellidos());
+		ClienteActual.setTelefono(cliente.getTelefono());
+		ClienteActual.setCorreo(cliente.getCorreo());
+		ClienteActual.setDireccion(cliente.getDireccion());
+		ClienteActual.setGenero(cliente.getGenero());
+		ClienteActual.setFecha_nacimiento(cliente.getFecha_nacimiento());
+		ClienteActual.setId_login(cliente.getId_login());
+		return clienteService.save(ClienteActual);
+	}
+	
+	//Método para eliminar:
+	@DeleteMapping("/clientes/{id}")
+	public void delete(@PathVariable Long id) {
+		clienteService.delete(id);
+	}
 	
 }

@@ -1,36 +1,36 @@
 package com.example.demo.model;
 
-import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Cliente implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Table(name="clientes")
+public class Cliente {
 	
+	public Long getId_cliente() {
+		return id_cliente;
+	}
+	public void setId_cliente(Long id_cliente) {
+		this.id_cliente = id_cliente;
+	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int idCliente;
-	@Column(name="nombres")
-	private String nombres;
-	@Column(name="apellidos")
-	private String apellidos;
-	@Column(name="dni")
-	private String dni;
-	@Column(name="edad")
-	private String edad;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id_cliente;
 	
-	public int getIdCliente() {
-		return idCliente;
-	}
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
-	}
+	private String nombres;
+    private String apellidos;
+    private String telefono;
+    private String correo;
+    private String direccion;
+    private String genero;
+    private Date fecha_nacimiento;
+    private int id_login;
+    	
 	public String getNombres() {
 		return nombres;
 	}
@@ -43,19 +43,42 @@ public class Cliente implements Serializable {
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
-	public String getDni() {
-		return dni;
+	public String getTelefono() {
+		return telefono;
 	}
-	public void setDni(String dni) {
-		this.dni = dni;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
-	public String getEdad() {
-		return edad;
+	public String getCorreo() {
+		return correo;
 	}
-	public void setEdad(String edad) {
-		this.edad = edad;
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
-	
+	public String getDireccion() {
+		return direccion;
+	}
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	public String getGenero() {
+		return genero;
+	}
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+	public Date getFecha_nacimiento() {
+		return fecha_nacimiento;
+	}
+	public void setFecha_nacimiento(Date fecha_nacimiento) {
+		this.fecha_nacimiento = fecha_nacimiento;
+	}
+	public int getId_login() {
+		return id_login;
+	}
+	public void setId_login(int id_login) {
+		this.id_login = id_login;
+	}
 	
 	
 }
