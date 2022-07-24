@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,12 @@ public class ReservaServiceImpl implements ReservaService{
 	public void delete(Long id) {
 		reservaRepository.deleteById(id);
 	}
+
+	@Override
+	public List<Reserva> ListarPorFecha(Date fechaReserva) {
+		return(List<Reserva>) reservaRepository.findByfechaReserva(fechaReserva);
+	}
+
+	
 
 }
