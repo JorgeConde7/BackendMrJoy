@@ -55,6 +55,9 @@ public class ReservaRestController {
 		reservaActual.setApellido(reserva.getApellido());
 		reservaActual.setTelefono(reserva.getTelefono());
 		reservaActual.setFlag_tipo_reserva(reserva.getFlag_tipo_reserva());
+		reservaActual.setIdPaquete(reserva.getIdPaquete());
+		reservaActual.setAcompaniante(reserva.getAcompaniante());
+		reservaActual.setTotal_a_pagar(reserva.getTotal_a_pagar());
 
 		return reservaService.save(reservaActual);
 	}

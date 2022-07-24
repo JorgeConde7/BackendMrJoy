@@ -32,6 +32,30 @@ public class Reserva
 	private String telefono;
 	private String flag_tipo_reserva;
 	
+	private int idPaquete;
+	private int acompaniante;
+	private double total_a_pagar;
+	
+	public int getIdPaquete() {
+		return idPaquete;
+	}
+	public void setIdPaquete(int idPaquete) {
+		this.idPaquete = idPaquete;
+	}
+	public int getAcompaniante() {
+		return acompaniante;
+	}
+	public void setAcompaniante(int acompaniante) {
+		this.acompaniante = acompaniante;
+	}
+	public double getTotal_a_pagar() {
+		return total_a_pagar;
+	}
+	public void setTotal_a_pagar(double total_a_pagar) {
+		this.total_a_pagar = total_a_pagar;
+	}
+	
+	
 	public Long getId_reserva() {
 		return id_reserva;
 	}
