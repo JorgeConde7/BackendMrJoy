@@ -12,4 +12,10 @@ public interface LoginService {
 	
 	public List<Login> findAll();
 	
+	public void delete(Long id);
+	
+	public Login listarporId(Long id);
+	
+	
+	
 }

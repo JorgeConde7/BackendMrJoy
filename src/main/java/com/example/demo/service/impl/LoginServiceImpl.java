@@ -34,8 +34,26 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Login> findAll() {
 		// TODO Auto-generated method stub
 		return loginRepository.findAll();
 	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		loginRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public Login listarporId(Long id) {
+		// TODO Auto-generated method stub
+		return loginRepository.findById(id).orElse(null);
+	}
+
+
+		
+	
 }

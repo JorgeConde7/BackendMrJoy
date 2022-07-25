@@ -25,6 +25,17 @@ public class Login implements Serializable {
 	@Column(name="contrasenia")
 	private String contrasenia;
 	
+	@Column(name="tipouser")
+	private String tipouser;
+	
+	
+	
+	public String getTipouser() {
+		return tipouser;
+	}
+	public void setTipouser(String tipouser) {
+		this.tipouser = tipouser;
+	}
 	public Long getId() {
 		return id;
 	}

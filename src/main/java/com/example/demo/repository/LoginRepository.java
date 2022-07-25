@@ -16,4 +16,6 @@ public interface LoginRepository extends JpaRepository<Login, Long>{
 	public Login save (Login login);
 	
 	public List<Login> findAll();
+	
+
 }
