@@ -23,7 +23,7 @@ public class Login implements Serializable {
 	private String usuario;
 	
 	@Column(name="contrasenia")
-	private String contraseña;
+	private String contrasenia;
 	
 	public Long getId() {
 		return id;
@@ -37,11 +37,11 @@ public class Login implements Serializable {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasenia() {
+		return contrasenia;
 	}
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 
 }
