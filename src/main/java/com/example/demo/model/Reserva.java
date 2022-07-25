@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
-import java.util.Date;
+import java.sql.Date;
+
+//import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,34 +23,49 @@ public class Reserva
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id_reserva;
-	private Date fecha_registro;
-	private Date fecha_reserva;
+	private Long idReserva;
+	@Column(name="fecha_registro")
+	private Date fechaRegistro;
+	@Column(name="fecha_reserva")
+	private Date fechaReserva;
+	@Column(name="hora")
 	private String hora;
-	private int cant_personas;
-	private int id_login;
+	@Column(name="cant_personas")
+	private int cantPersonas;
+	@Column(name="id_login")
+	private int idLogin;
+	@Column(name="nombres")
 	private String nombres;
+	@Column(name="apellido")
 	private String apellido;
+	@Column(name="telefono")
 	private String telefono;
-	private String flag_tipo_reserva;
+	@Column(name="flag_tipo_reserva")
+	private String flagTipoReserva;
+	@Column(name="id_paquete")
+	private int idPaquete;
+	@Column(name="acompaniante")
+	private int acompaniante;
+	@Column(name="total_pago")
+	private double totalPago;
 	
-	public Long getId_reserva() {
-		return id_reserva;
+	public Long getIdReserva() {
+		return idReserva;
 	}
-	public void setId_reserva(Long id_reserva) {
-		this.id_reserva = id_reserva;
+	public void setIdReserva(Long idReserva) {
+		this.idReserva = idReserva;
 	}
-	public Date getFecha_registro() {
-		return fecha_registro;
+	public Date getFechaRegistro() {
+		return fechaRegistro;
 	}
-	public void setFecha_registro(Date fecha_registro) {
-		this.fecha_registro = fecha_registro;
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
 	}
-	public Date getFecha_reserva() {
-		return fecha_reserva;
+	public Date getFechaReserva() {
+		return fechaReserva;
 	}
-	public void setFecha_reserva(Date fecha_reserva) {
-		this.fecha_reserva = fecha_reserva;
+	public void setFechaReserva(Date fechaReserva) {
+		this.fechaReserva = fechaReserva;
 	}
 	public String getHora() {
 		return hora;
@@ -56,17 +73,17 @@ public class Reserva
 	public void setHora(String hora) {
 		this.hora = hora;
 	}
-	public int getCant_personas() {
-		return cant_personas;
+	public int getCantPersonas() {
+		return cantPersonas;
 	}
-	public void setCant_personas(int cant_personas) {
-		this.cant_personas = cant_personas;
+	public void setCantPersonas(int cantPersonas) {
+		this.cantPersonas = cantPersonas;
 	}
-	public int getId_login() {
-		return id_login;
+	public int getIdLogin() {
+		return idLogin;
 	}
-	public void setId_login(int id_login) {
-		this.id_login = id_login;
+	public void setIdLogin(int idLogin) {
+		this.idLogin = idLogin;
 	}
 	public String getNombres() {
 		return nombres;
@@ -86,26 +103,35 @@ public class Reserva
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	public String getFlag_tipo_reserva() {
-		return flag_tipo_reserva;
+	public String getFlagTipoReserva() {
+		return flagTipoReserva;
 	}
-	public void setFlag_tipo_reserva(String flag_tipo_reserva) {
-		this.flag_tipo_reserva = flag_tipo_reserva;
+	public void setFlagTipoReserva(String flagTipoReserva) {
+		this.flagTipoReserva = flagTipoReserva;
 	}
-	public static Long getSerialversionuid() {
-		return serialVersionUID;
+	public int getIdPaquete() {
+		return idPaquete;
 	}
-	
-	/*@Column(name="fecha_registro")
-	@Temporal(TemporalType.DATE) //Formato a guardar:
-	private Date fecha_registro;
-	
-	@PrePersist
-	public void prePersist() 
-	{
-		fecha_registro = new Date();
-	}*/
+	public void setIdPaquete(int idPaquete) {
+		this.idPaquete = idPaquete;
+	}
+	public int getAcompaniante() {
+		return acompaniante;
+	}
+	public void setAcompaniante(int acompaniante) {
+		this.acompaniante = acompaniante;
+	}
+	public double getTotalPago() {
+		return totalPago;
+	}
+	public void setTotalPago(double totalPago) {
+		this.totalPago = totalPago;
+	}
 
+	
+	
+
+	
 	
 	
 	

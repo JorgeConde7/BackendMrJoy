@@ -1,5 +1,6 @@
 package com.example.demo.restController;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.Paquetes;
 import com.example.demo.model.Reserva;
+import com.example.demo.service.PaqueteService;
 import com.example.demo.service.ReservaService;
 
 
@@ -23,6 +26,9 @@ import com.example.demo.service.ReservaService;
 public class ReservaRestController {
 	@Autowired
 	private ReservaService reservaService;
+	
+	@Autowired
+	private PaqueteService paqueteService;
 
 	@GetMapping("/reservas")
 	public List<Reserva> index() {
@@ -46,15 +52,18 @@ public class ReservaRestController {
 	@PutMapping("/reservas/{id}")
 	public Reserva update(@RequestBody Reserva reserva, @PathVariable Long id) {
 		Reserva reservaActual = reservaService.findById(id);
-		reservaActual.setFecha_registro(reserva.getFecha_registro());
-		reservaActual.setFecha_reserva(reserva.getFecha_reserva());
+		reservaActual.setFechaRegistro(reserva.getFechaRegistro());
+		reservaActual.setFechaReserva(reserva.getFechaReserva());
 		reservaActual.setHora(reserva.getHora());
-		reservaActual.setCant_personas(reserva.getCant_personas());
-		reservaActual.setId_login(reserva.getId_login());
+		reservaActual.setCantPersonas(reserva.getCantPersonas());
+		reservaActual.setIdLogin(reserva.getIdLogin());
 		reservaActual.setNombres(reserva.getNombres());
 		reservaActual.setApellido(reserva.getApellido());
 		reservaActual.setTelefono(reserva.getTelefono());
-		reservaActual.setFlag_tipo_reserva(reserva.getFlag_tipo_reserva());
+		reservaActual.setFlagTipoReserva(reserva.getFlagTipoReserva());
+		reservaActual.setIdPaquete(reserva.getIdPaquete());
+		reservaActual.setAcompaniante(reserva.getAcompaniante());
+		reservaActual.setTotalPago(reserva.getTotalPago());
 
 		return reservaService.save(reservaActual);
 	}
@@ -63,5 +72,18 @@ public class ReservaRestController {
 	public void delete(@PathVariable Long id) 
 	{
 		reservaService.delete(id);
+	}
+	
+	@GetMapping("/paquetes")
+    public List<Paquetes>listarPaquetes() throws Exception{
+
+        return paqueteService.listarPaquetes();
+   
+
+	}
+	
+	@GetMapping("/reservas-fecha/{fecha}")
+	public List<Reserva> listarPorFecha(@PathVariable Date fecha) {
+		return reservaService.ListarPorFecha(fecha);
 	}
 }
