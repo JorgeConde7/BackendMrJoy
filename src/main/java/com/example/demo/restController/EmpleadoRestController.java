@@ -38,8 +38,16 @@ public class EmpleadoRestController {
 
 	// crear id
 	@PostMapping("/empleados")
-	public Empleado create(@RequestBody Empleado empleado) {
-		return empleadoService.save(empleado);
+	public String create(@RequestBody Empleado empleado) {
+		if (empleado.getNombres()!=""&& empleado.getApellidos()!=""&&
+				empleado.getTelefono()!=""&&empleado.getFechaNacimiento()!=null&&
+				empleado.getTurno()!="")
+		{ 
+			empleadoService.save(empleado);
+			return "empleado registrado correctamente";
+		}
+		else
+			return("registra bien imbecil");		
 	}
 
 	// actualizar
