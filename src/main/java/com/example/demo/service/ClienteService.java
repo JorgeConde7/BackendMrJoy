@@ -2,6 +2,9 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
+import com.example.demo.dto.ClienteDTO;
 import com.example.demo.model.Cliente;
 
 public interface ClienteService {
@@ -11,5 +14,5 @@ public interface ClienteService {
 	public Cliente save (Cliente cliente);
 	public void delete (Long Id);
 	
-
+	public ResponseEntity<ClienteDTO> guardarDatos(ClienteDTO cliente);
 }
