@@ -58,6 +58,7 @@ public class EmpleadoRestController {
 		Empleado empleadoActual = empleadoService.findById(id);
 		empleadoActual.setNombres(empleado.getNombres());
 		empleadoActual.setApellidos(empleado.getApellidos());
+		empleadoActual.setDni(empleado.getDni());
 		empleadoActual.setTelefono(empleado.getTelefono());
 		empleadoActual.setCorreo(empleado.getCorreo());
 		empleadoActual.setTurno(empleado.getTurno());
