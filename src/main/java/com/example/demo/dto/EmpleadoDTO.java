@@ -10,6 +10,7 @@ public class EmpleadoDTO {
 	private String telefono;
 	private String correo;
 	private String turno;
+	private String dni;
 	private Date fechaNacimiento;
 	private Long idLogin;
 	private String usuario;
@@ -20,7 +21,7 @@ public class EmpleadoDTO {
 		
 	}
 	
-	public EmpleadoDTO(Long id_empleados, String nombres, String apellidos, String telefono, String correo,
+	public EmpleadoDTO(Long id_empleados, String nombres, String apellidos, String telefono,String dni, String correo,
 			String turno, Long idLogin, Date fechaNacimiento, String usuario, String contrasenia, String tipouser) {
 		super();
 		this.id_empleados = id_empleados;
@@ -29,12 +30,21 @@ public class EmpleadoDTO {
 		this.telefono = telefono;
 		this.correo = correo;
 		this.turno = turno;
+		this.dni=dni;
 		this.idLogin = idLogin;
 		this.fechaNacimiento = fechaNacimiento;
 		this.usuario = usuario;
 		this.contrasenia = contrasenia;
 		this.tipouser = tipouser;
 	}
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
 	public Long getId_empleados() {
 		return id_empleados;
 	}

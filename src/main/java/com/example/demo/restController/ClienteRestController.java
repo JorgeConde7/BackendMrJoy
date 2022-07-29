@@ -3,6 +3,7 @@ package com.example.demo.restController;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.ClienteDTO;
+import com.example.demo.dto.EmpleadoDTO;
 import com.example.demo.model.Cliente;
 import com.example.demo.service.ClienteService;
 
@@ -61,6 +64,13 @@ public class ClienteRestController {
 	@DeleteMapping("/clientes/{id}")
 	public void delete(@PathVariable Long id) {
 		clienteService.delete(id);
+	}
+	
+	@PostMapping("/guardarCliente")
+	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) 
+	{
+		System.out.println("OEKEE");
+		return clienteService.guardarDatos(clienteDTO);
 	}
 	
 }

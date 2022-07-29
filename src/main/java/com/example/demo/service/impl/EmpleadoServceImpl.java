@@ -64,6 +64,7 @@ public class EmpleadoServceImpl implements EmpleadoService {
 		Empleado empleadoDato = new Empleado();
 		empleadoDato.setApellidos(empleadoDTO.getApellidos());
 		empleadoDato.setNombres(empleadoDTO.getNombres());
+		empleadoDato.setDni(empleadoDTO.getDni());
 		empleadoDato.setCorreo(empleadoDTO.getCorreo());
 		empleadoDato.setFechaNacimiento(empleadoDTO.getFechaNacimiento());
 		empleadoDato.setTelefono(empleadoDTO.getTelefono());

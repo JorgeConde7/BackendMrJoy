@@ -24,6 +24,7 @@ public class Empleado {
 	private String telefono;
 	private String correo;
 	private String turno;
+	private String dni;
 	private Long idLogin;
 	private Date fechaNacimiento;
 
@@ -33,16 +34,25 @@ public class Empleado {
 	}
 
 	public Empleado(Long id_empleados, String nombres, String apellidos, String telefono, String correo, String turno,
-			Long idLogin, Date fechaNacimiento) {
+			Long idLogin, Date fechaNacimiento ,String dni) {
 		super();
 		this.id_empleados = id_empleados;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.telefono = telefono;
 		this.correo = correo;
+		this.dni=dni;
 		this.turno = turno;
 		this.idLogin = idLogin;
 		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 	public Long getIdLogin() {
