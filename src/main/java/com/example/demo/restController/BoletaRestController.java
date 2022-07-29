@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.BoletaDTO;
 import com.example.demo.model.BoletaEntrada;
-import com.example.demo.model.Cliente;
 import com.example.demo.service.BoletaService;
-import com.example.demo.service.ClienteService;
+
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -66,6 +66,15 @@ public class BoletaRestController {
     public ResponseEntity<?> delete( @PathVariable Integer id){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(boletaService.delete(id));
+        }catch (Exception e){
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"Error\"*:\"Error. Por favor intente mas tarde.\"}");
+        }
+    }
+    
+    @PostMapping("guardar")
+    public ResponseEntity<?> guardarBoleta (@RequestBody  BoletaDTO model){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(boletaService.guardarBoleta(model));
         }catch (Exception e){
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"Error\"*:\"Error. Por favor intente mas tarde.\"}");
         }

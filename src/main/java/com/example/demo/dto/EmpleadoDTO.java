@@ -18,7 +18,6 @@ public class EmpleadoDTO {
 	private String tipouser;
 		
 	public EmpleadoDTO() {
-		
 	}
 	
 	public EmpleadoDTO(Long id_empleados, String nombres, String apellidos, String telefono,String dni, String correo,

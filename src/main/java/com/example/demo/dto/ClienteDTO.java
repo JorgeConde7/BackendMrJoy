@@ -2,10 +2,8 @@ package com.example.demo.dto;
 
 import java.sql.Date;
 
-public class ClienteDTO 
-{
-private Long id_cliente;
-	
+public class ClienteDTO {
+	private Long id_cliente;
 	private String nombres;
     private String apellidos;
     private String telefono;
@@ -18,11 +16,8 @@ private Long id_cliente;
 	private String contrasenia;
 	private String tipouser;
 	
-	public ClienteDTO()
-	{
-		
-	}
-	
+	public ClienteDTO(){
+		}
 	
 	public Long getId_cliente() {
 		return id_cliente;

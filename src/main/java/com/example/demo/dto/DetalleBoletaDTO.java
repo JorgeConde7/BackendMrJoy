@@ -1,29 +1,25 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="detalles_boleta")
-public class DetalleBoleta {
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+public class DetalleBoletaDTO {
+	
 	private int idDetalle;
-	@Column(name="numBoleta")
 	private int numBoleta;
-	@Column(name = "id_tipo_entrada")
 	private int idTipoEntrada;
-	@Column(name = "cantidad")
 	private int cantidad;
-	@Column(name = "precio_unitario")
 	private double precioUnitario;
 	
+	public DetalleBoletaDTO() {
+		super();
+	}
+	
+	public DetalleBoletaDTO(int idDetalle, int numBoleta, int idTipoEntrada, int cantidad, double precioUnitario) {
+		super();
+		this.idDetalle = idDetalle;
+		this.numBoleta = numBoleta;
+		this.idTipoEntrada = idTipoEntrada;
+		this.cantidad = cantidad;
+		this.precioUnitario = precioUnitario;
+	}
 	public int getIdDetalle() {
 		return idDetalle;
 	}
@@ -55,6 +51,7 @@ public class DetalleBoleta {
 		this.precioUnitario = precioUnitario;
 	}
 	
-
+	
+	
 
 }

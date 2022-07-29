@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.BoletaDTO;
 import com.example.demo.model.BoletaEntrada;
-
-
 
 public interface BoletaService {
 
@@ -19,4 +18,6 @@ public interface BoletaService {
 	BoletaEntrada update(Integer id, BoletaEntrada model) throws Exception;
 
     boolean delete(Integer id) throws Exception;
+    
+    BoletaDTO guardarBoleta(BoletaDTO boletaDTO) throws Exception;
 }
