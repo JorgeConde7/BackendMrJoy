@@ -69,7 +69,7 @@ public class EmpleadoServceImpl implements EmpleadoService {
 		empleadoDato.setFechaNacimiento(empleadoDTO.getFechaNacimiento());
 		empleadoDato.setTelefono(empleadoDTO.getTelefono());
 		empleadoDato.setTurno(empleadoDTO.getTurno());
-		empleadoDato.setIdLogin(DatoLogin.getId());
+		empleadoDato.setIdLogin(DatoLogin.getIdLogin());
 				
 		Empleado empleadoGuardado=empleadoRespository.save(empleadoDato);
 		

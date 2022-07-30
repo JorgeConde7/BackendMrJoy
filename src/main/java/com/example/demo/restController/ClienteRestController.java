@@ -50,13 +50,14 @@ public class ClienteRestController {
 		Cliente ClienteActual = clienteService.findById(id);
 		
 		ClienteActual.setNombres(cliente.getNombres());
-		ClienteActual.setApellidos(cliente.getApellidos());
+		ClienteActual.setApePaterno(cliente.getApePaterno());
+		ClienteActual.setApeMaterno(cliente.getApeMaterno());
 		ClienteActual.setTelefono(cliente.getTelefono());
 		ClienteActual.setCorreo(cliente.getCorreo());
 		ClienteActual.setDireccion(cliente.getDireccion());
 		ClienteActual.setGenero(cliente.getGenero());
-		ClienteActual.setFecha_nacimiento(cliente.getFecha_nacimiento());
-		ClienteActual.setId_login(cliente.getId_login());
+		ClienteActual.setFechaNacimiento(cliente.getFechaNacimiento());
+		ClienteActual.setIdLogin(cliente.getIdLogin());
 		return clienteService.save(ClienteActual);
 	}
 	

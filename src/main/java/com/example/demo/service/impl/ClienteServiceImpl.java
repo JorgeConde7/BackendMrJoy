@@ -53,22 +53,25 @@ public class ClienteServiceImpl implements ClienteService{
 	@Override
 	public ResponseEntity<ClienteDTO> guardarDatos(ClienteDTO clienteDTO) {
 		
+
 		Login login = new Login();
 		login.setUsuario(clienteDTO.getUsuario());
 		login.setContrasenia(clienteDTO.getContrasenia());
 		login.setTipouser(clienteDTO.getTipouser());
 		
-		Login DatoLogin=loginRepository.save(login); 
+		Login datoLogin=loginRepository.save(login); 
 		
 		Cliente clienteDato = new Cliente();
-		clienteDato.setApellidos(clienteDTO.getApellidos());
+		clienteDato.setApePaterno(clienteDTO.getApePaterno());
+		clienteDato.setApeMaterno(clienteDTO.getApeMaterno());
+		clienteDato.setDni(clienteDTO.getDni());
 		clienteDato.setNombres(clienteDTO.getNombres());
 		clienteDato.setCorreo(clienteDTO.getCorreo());
 		clienteDato.setTelefono(clienteDTO.getTelefono());
 		clienteDato.setDireccion(clienteDTO.getDireccion());
 		clienteDato.setGenero(clienteDTO.getGenero());
-		clienteDato.setId_login(clienteDTO.getId_login());
-		clienteDato.setFecha_nacimiento(clienteDTO.getFecha_nacimiento());
+		clienteDato.setIdLogin(datoLogin.getIdLogin().intValue());
+		clienteDato.setFechaNacimiento(clienteDTO.getFechaNacimiento());
 				
 		Cliente clienteoGuardado=clienteDao.save(clienteDato);
 		

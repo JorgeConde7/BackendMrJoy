@@ -16,8 +16,7 @@ public class Login implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_login")
-	private Long id;
+	private Long idLogin;
 	
 	@Column(name="usuario")
 	private String usuario;
@@ -36,11 +35,12 @@ public class Login implements Serializable {
 	public void setTipouser(String tipouser) {
 		this.tipouser = tipouser;
 	}
-	public Long getId() {
-		return id;
+
+	public Long getIdLogin() {
+		return idLogin;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdLogin(Long idLogin) {
+		this.idLogin = idLogin;
 	}
 	public String getUsuario() {
 		return usuario;

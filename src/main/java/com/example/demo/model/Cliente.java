@@ -12,24 +12,21 @@ import javax.persistence.Table;
 @Table(name="clientes")
 public class Cliente {
 	
-	public Long getId_cliente() {
-		return id_cliente;
-	}
-	public void setId_cliente(Long id_cliente) {
-		this.id_cliente = id_cliente;
-	}
+
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id_cliente;
-	
+   
+	private Long idCliente;
 	private String nombres;
-    private String apellidos;
+    private String apePaterno;
+    private String apeMaterno;
+    private String  dni;
     private String telefono;
     private String correo;
     private String direccion;
     private String genero;
-    private Date fecha_nacimiento;
-    private int id_login;
+    private Date fechaNacimiento;
+    private int idLogin;
     	
 	public String getNombres() {
 		return nombres;
@@ -37,12 +34,7 @@ public class Cliente {
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
 	}
-	public String getApellidos() {
-		return apellidos;
-	}
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
+
 	public String getTelefono() {
 		return telefono;
 	}
@@ -67,18 +59,45 @@ public class Cliente {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-	public Date getFecha_nacimiento() {
-		return fecha_nacimiento;
+
+	public Long getIdCliente() {
+		return idCliente;
 	}
-	public void setFecha_nacimiento(Date fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
 	}
-	public int getId_login() {
-		return id_login;
+	public String getApePaterno() {
+		return apePaterno;
 	}
-	public void setId_login(int id_login) {
-		this.id_login = id_login;
+	public void setApePaterno(String apePaterno) {
+		this.apePaterno = apePaterno;
 	}
+	public String getApeMaterno() {
+		return apeMaterno;
+	}
+	public void setApeMaterno(String apeMaterno) {
+		this.apeMaterno = apeMaterno;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	public int getIdLogin() {
+		return idLogin;
+	}
+	public void setIdLogin(int idLogin) {
+		this.idLogin = idLogin;
+	}
+
 	
 	
 }

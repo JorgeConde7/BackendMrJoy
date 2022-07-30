@@ -3,39 +3,44 @@ package com.example.demo.dto;
 import java.sql.Date;
 
 public class ClienteDTO {
-	private Long id_cliente;
+	private Long idCliente;
 	private String nombres;
-    private String apellidos;
+    private String apePaterno;
+    private String apeMaterno;
+    private String  Dni;
     private String telefono;
     private String correo;
     private String direccion;
     private String genero;
-    private Date fecha_nacimiento;
-    private int id_login;
+    private Date fechaNacimiento;
+    private Long idLogin;
     private String usuario;
 	private String contrasenia;
 	private String tipouser;
-	
-	public ClienteDTO(){
-		}
-	
-	public Long getId_cliente() {
-		return id_cliente;
-	}
-	public void setId_cliente(Long id_cliente) {
-		this.id_cliente = id_cliente;
-	}
+
 	public String getNombres() {
 		return nombres;
 	}
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
 	}
-	public String getApellidos() {
-		return apellidos;
+	public String getApePaterno() {
+		return apePaterno;
 	}
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+	public void setApePaterno(String apePaterno) {
+		this.apePaterno = apePaterno;
+	}
+	public String getApeMaterno() {
+		return apeMaterno;
+	}
+	public void setApeMaterno(String apeMaterno) {
+		this.apeMaterno = apeMaterno;
+	}
+	public String getDni() {
+		return Dni;
+	}
+	public void setDni(String dni) {
+		Dni = dni;
 	}
 	public String getTelefono() {
 		return telefono;
@@ -61,17 +66,25 @@ public class ClienteDTO {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-	public Date getFecha_nacimiento() {
-		return fecha_nacimiento;
+
+
+	public Long getIdCliente() {
+		return idCliente;
 	}
-	public void setFecha_nacimiento(Date fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
 	}
-	public int getId_login() {
-		return id_login;
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
 	}
-	public void setId_login(int id_login) {
-		this.id_login = id_login;
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	public Long getIdLogin() {
+		return idLogin;
+	}
+	public void setIdLogin(Long idLogin) {
+		this.idLogin = idLogin;
 	}
 	public String getUsuario() {
 		return usuario;
@@ -91,6 +104,4 @@ public class ClienteDTO {
 	public void setTipouser(String tipouser) {
 		this.tipouser = tipouser;
 	}
-	
-	
 }
