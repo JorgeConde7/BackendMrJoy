@@ -1,6 +1,8 @@
 package com.example.demo.service.impl;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,25 @@ public class ReservaServiceImpl implements ReservaService{
 
 	@Override
 	public Reserva save(Reserva reserva) {
+		Date fechaReserva = reserva.getFechaReserva();
+		Calendar c = Calendar.getInstance();
+		c.setTime(fechaReserva);
+		c.add(Calendar.DATE, 1);
+		java.util.Date dates = c.getTime();
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String format = formatter.format(dates);
+		System.out.println(format);
+		reserva.setFechaReserva(Date.valueOf(format));
+		reserva.setFechaRegistro(ObtenerFechaActual());
 		return reservaRepository.save(reserva);
+	}
+	
+	public Date ObtenerFechaActual()
+	{
+		long miliseconds = System.currentTimeMillis();
+        Date date = new Date(miliseconds);
+		return date;
 	}
 
 	@Override
