@@ -19,6 +19,8 @@ public class TipoEntrada {
 	private Long id;
 	
 	private String descripcion;
+	private double precioUnitario;
+	private String rutaImg; 
 
 	public Long getId() {
 		return id;
@@ -34,6 +36,22 @@ public class TipoEntrada {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	public double getPrecioUnitario() {
+		return precioUnitario;
+	}
+
+	public void setPrecioUnitario(double precioUnitario) {
+		this.precioUnitario = precioUnitario;
+	}
+
+	public String getRutaImg() {
+		return rutaImg;
+	}
+
+	public void setRutaImg(String rutaImg) {
+		this.rutaImg = rutaImg;
 	}
 
 }
