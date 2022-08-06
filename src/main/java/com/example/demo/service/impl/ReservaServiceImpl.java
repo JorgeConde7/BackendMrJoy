@@ -12,10 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.model.Reserva;
 import com.example.demo.repository.ReservaRepository;
 import com.example.demo.service.ReservaService;
+import com.example.demo.util.Utilitarios;
 
 @Service
-public class ReservaServiceImpl implements ReservaService{
+public class ReservaServiceImpl implements ReservaService {
 
+	private  Utilitarios utilitarios;
+	
 	@Autowired
 	private ReservaRepository reservaRepository;
 	
@@ -42,16 +45,11 @@ public class ReservaServiceImpl implements ReservaService{
 		String format = formatter.format(dates);
 		System.out.println(format);
 		reserva.setFechaReserva(Date.valueOf(format));
-		reserva.setFechaRegistro(ObtenerFechaActual());
+		reserva.setFechaRegistro(utilitarios.ObtenerFechaActual());
 		return reservaRepository.save(reserva);
 	}
 	
-	public Date ObtenerFechaActual()
-	{
-		long miliseconds = System.currentTimeMillis();
-        Date date = new Date(miliseconds);
-		return date;
-	}
+
 
 	@Override
 	public void delete(Long id) {
