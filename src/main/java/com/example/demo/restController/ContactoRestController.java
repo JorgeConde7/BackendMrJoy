@@ -52,6 +52,7 @@ public class ContactoRestController {
 			ContactoActual.setAsunto(contacto.getAsunto());
 			ContactoActual.setEstado(contacto.getEstado());
 			ContactoActual.setDescripcion(contacto.getDescripcion());
+			ContactoActual.setFechaRegistro(contacto.getFechaRegistro());
 			return contactoService.save(ContactoActual);
 		}
 			

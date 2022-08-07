@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +23,15 @@ public class Contacto {
 	private String asunto;
 	private String estado;
 	private String descripcion;
+	private Date fechaRegistro;
 	
+	
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
 	public Long getIdContacto() {
 		return idContacto;
 	}
