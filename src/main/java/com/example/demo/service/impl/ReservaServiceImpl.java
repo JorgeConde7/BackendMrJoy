@@ -16,8 +16,6 @@ import com.example.demo.util.Utilitarios;
 
 @Service
 public class ReservaServiceImpl implements ReservaService {
-
-	private  Utilitarios utilitarios;
 	
 	@Autowired
 	private ReservaRepository reservaRepository;
@@ -45,12 +43,11 @@ public class ReservaServiceImpl implements ReservaService {
 		String format = formatter.format(dates);
 		System.out.println(format);
 		reserva.setFechaReserva(Date.valueOf(format));
+		Utilitarios utilitarios= new Utilitarios();
 		reserva.setFechaRegistro(utilitarios.ObtenerFechaActual());
 		return reservaRepository.save(reserva);
 	}
 	
-
-
 	@Override
 	public void delete(Long id) {
 		reservaRepository.deleteById(id);

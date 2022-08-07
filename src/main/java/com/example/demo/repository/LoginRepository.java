@@ -9,13 +9,9 @@ import java.util.List;
 @Repository
 
 public interface LoginRepository extends JpaRepository<Login, Long>{
-	public Login findByUsuario (String usuario);
-	
+
 	public Login findByUsuarioAndContrasenia (String usuario, String password);
-	
-	public Login save (Login login);
-	
-	public List<Login> findAll();
+
 	
 
 }

@@ -25,8 +25,8 @@ public class BoletaEntrada {
 	
 	@Column(name="idLogin")
 	private int idLogin;
-	
-	@Column(name="flagTipoBoleta")
+
+	@Column(name="flagTipoBoleta",nullable = false, length = 1)
 	private String flagTipoBoleta;
 	
 	public int getNumBoleta() {

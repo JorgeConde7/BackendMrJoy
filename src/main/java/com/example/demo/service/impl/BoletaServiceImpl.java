@@ -12,18 +12,23 @@ import com.example.demo.dto.BoletaDTO;
 import com.example.demo.dto.DetalleBoletaDTO;
 import com.example.demo.model.BoletaEntrada;
 import com.example.demo.model.DetalleBoleta;
+import com.example.demo.model.Login;
 import com.example.demo.repository.BoletaRepository;
 import com.example.demo.repository.DetalleBoletaRepository;
+import com.example.demo.repository.LoginRepository;
 import com.example.demo.service.BoletaService;
+import com.example.demo.util.Constantes;
+import com.example.demo.util.Utilitarios;
 
 @Service
 public class BoletaServiceImpl implements BoletaService{
 
 	@Autowired
 	private BoletaRepository boletaRepository;
-	
 	@Autowired
 	private DetalleBoletaRepository detalleBoletaRepository;
+	@Autowired
+	private LoginRepository loginRepository;
 	
 	@Override
 	@Transactional
@@ -93,41 +98,46 @@ public class BoletaServiceImpl implements BoletaService{
 	@Override
 	public BoletaDTO guardarBoleta(BoletaDTO boletaDTO) throws Exception {
 		
-		BoletaEntrada boletaEntrada= new BoletaEntrada();
-		boletaEntrada.setNumBoleta(boletaDTO.getNumBoleta());
-		boletaEntrada.setFechaRegistro(boletaDTO.getFechaRegistro());
-		boletaEntrada.setIdLogin(boletaDTO.getidLogin());
-		boletaEntrada.setFlagTipoBoleta(boletaDTO.getFlagTipoBoleta());
-		boletaEntrada.setTotal(boletaDTO.getTotal());
-		BoletaEntrada datosBoleta =boletaRepository.save(boletaEntrada);
+		Utilitarios utilitarios= null;
+		try {
+			BoletaEntrada boletaEntrada= new BoletaEntrada();
+			Login login= new Login();
 
-		
-		List<DetalleBoletaDTO> listDetalleBoletas = boletaDTO.getDetalleBoleta();
-		DetalleBoleta detBoleta=null;
-		
-		for (int i = 0; i < listDetalleBoletas.size(); i++) {
-			detBoleta=new DetalleBoleta();
-			detBoleta.setNumBoleta(datosBoleta.getNumBoleta());
-			detBoleta.setCantidad(listDetalleBoletas.get(i).getCantidad());
-			detBoleta.setPrecioUnitario(listDetalleBoletas.get(i).getPrecioUnitario());
-			detBoleta.setIdTipoEntrada(listDetalleBoletas.get(i).getIdTipoEntrada());
-			detalleBoletaRepository.save(detBoleta);
+			utilitarios= new Utilitarios();
+			boletaEntrada.setFechaRegistro(utilitarios.ObtenerFechaActual());
+			boletaEntrada.setIdLogin(boletaDTO.getidLogin());
+			
+			long id=boletaDTO.getidLogin();
+			Optional<Login> datosLogin=loginRepository.findById(id);
+			login=datosLogin.get();
+			
+			if(login.getTipouser().equals(Constantes.CLIENTE_LOGIN)) {
+				boletaEntrada.setFlagTipoBoleta(Constantes.FLAG_CLIENTE);
+			}
+			if(login.getTipouser().equals(Constantes.EMPLEADO_LOGIN)) {
+				boletaEntrada.setFlagTipoBoleta(Constantes.FlAG_EMPLEADO);	
+			}
+					
+			boletaEntrada.setTotal(boletaDTO.getTotal());
+			BoletaEntrada datosBoleta =boletaRepository.save(boletaEntrada);
+
+			List<DetalleBoletaDTO> listDetalleBoletas = boletaDTO.getDetalleBoleta();
+			DetalleBoleta detBoleta=null;
+			
+			for (int i = 0; i < listDetalleBoletas.size(); i++) {
+				detBoleta=new DetalleBoleta();
+				detBoleta.setNumBoleta(datosBoleta.getNumBoleta());
+				detBoleta.setCantidad(listDetalleBoletas.get(i).getCantidad());
+				detBoleta.setPrecioUnitario(listDetalleBoletas.get(i).getSubTotal());
+				detBoleta.setIdTipoEntrada(listDetalleBoletas.get(i).getIdTipoEntrada());
+				detalleBoletaRepository.save(detBoleta);
+			}
+			
+			return boletaDTO;
+		}catch(Exception e) {
+			throw new Exception(e.getMessage());
 		}
-		/*
-		for(DetalleBoletaDTO recorrerBoleta:listDetalleBoletas) {
-			
-			detBoleta=new DetalleBoleta();
-			
-			detBoleta.setNumBoleta(datosBoleta.getNumBoleta());
-			detBoleta.setCantidad(recorrerBoleta.getCantidad());
-			detBoleta.setPrecioUnitario(recorrerBoleta.getPrecioUnitario());
-			detBoleta.setIdTipoEntrada(recorrerBoleta.getIdTipoEntrada());
-			detalleBoletaRepository.save(detBoleta);
-			
-		}*/
 		
-
-		return boletaDTO;
 	}
 
 }

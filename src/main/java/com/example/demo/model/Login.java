@@ -29,6 +29,16 @@ public class Login implements Serializable {
 	
 	
 	
+	public Login() {
+		super();
+	}
+	public Login(Long idLogin, String usuario, String contrasenia, String tipouser) {
+		super();
+		this.idLogin = idLogin;
+		this.usuario = usuario;
+		this.contrasenia = contrasenia;
+		this.tipouser = tipouser;
+	}
 	public String getTipouser() {
 		return tipouser;
 	}

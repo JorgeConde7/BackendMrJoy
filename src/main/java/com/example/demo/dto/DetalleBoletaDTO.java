@@ -6,20 +6,21 @@ public class DetalleBoletaDTO {
 	private int numBoleta;
 	private int idTipoEntrada;
 	private int cantidad;
-	private double precioUnitario;
+	private double subTotal;
 	
 	public DetalleBoletaDTO() {
 		super();
 	}
 	
-	public DetalleBoletaDTO(int idDetalle, int numBoleta, int idTipoEntrada, int cantidad, double precioUnitario) {
+	public DetalleBoletaDTO(int idDetalle, int numBoleta, int idTipoEntrada, int cantidad, double subTotal) {
 		super();
 		this.idDetalle = idDetalle;
 		this.numBoleta = numBoleta;
 		this.idTipoEntrada = idTipoEntrada;
 		this.cantidad = cantidad;
-		this.precioUnitario = precioUnitario;
+		this.subTotal = subTotal;
 	}
+
 	public int getIdDetalle() {
 		return idDetalle;
 	}
@@ -44,12 +45,15 @@ public class DetalleBoletaDTO {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	public double getPrecioUnitario() {
-		return precioUnitario;
+
+	public double getSubTotal() {
+		return subTotal;
 	}
-	public void setPrecioUnitario(double precioUnitario) {
-		this.precioUnitario = precioUnitario;
+
+	public void setSubTotal(double subTotal) {
+		this.subTotal = subTotal;
 	}
+
 	
 	
 	
