@@ -79,4 +79,11 @@ public class ClienteServiceImpl implements ClienteService{
 		return ResponseEntity.status(HttpStatus.OK).body(clienteDTO);
 	}
 
+	@Override
+	@Transactional
+	public Cliente findByIdLogin(int idlogin) {
+		return clienteDao.findByIdLogin(idlogin);
+	}
+
+
 }

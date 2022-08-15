@@ -38,6 +38,12 @@ public class ClienteRestController {
 		return clienteService.findById(id);
 	}
 	
+	//Método para mostrar por IdLogin:
+	@GetMapping("/clientesbyidlogin/{id}")
+	public Cliente showidLogin(@PathVariable int id) {
+		return clienteService.findByIdLogin(id);
+	}
+	
 	//Método para crear:
 	@PostMapping("/clientes")
 	public Cliente create(@RequestBody Cliente cliente) {

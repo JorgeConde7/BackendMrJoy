@@ -15,4 +15,6 @@ public interface ClienteService {
 	public void delete (Long Id);
 	
 	public ResponseEntity<ClienteDTO> guardarDatos(ClienteDTO cliente);
+	
+	public Cliente findByIdLogin(int idlogin);
 }
