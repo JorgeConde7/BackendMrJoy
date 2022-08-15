@@ -63,6 +63,7 @@ public class ClienteRestController {
 		ClienteActual.setDireccion(cliente.getDireccion());
 		ClienteActual.setGenero(cliente.getGenero());
 		ClienteActual.setFechaNacimiento(cliente.getFechaNacimiento());
+		ClienteActual.setRutaImg(cliente.getRutaImg());
 		ClienteActual.setIdLogin(cliente.getIdLogin());
 		return clienteService.save(ClienteActual);
 	}
