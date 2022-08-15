@@ -44,7 +44,9 @@ public class PromocionesRestControllers {
 	public Promociones actualizar(@PathVariable Long id,
 		@RequestBody Promociones tipoentrada) {
 		Promociones antiguo=promocionesservice.findById(id);
+		antiguo.setPromociones(tipoentrada.getPromociones());
 		antiguo.setDescripcion(tipoentrada.getDescripcion());
+		antiguo.setFoto(tipoentrada.getFoto());
 		
 		return promocionesservice.save(antiguo);
 	}
