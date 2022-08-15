@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.TotalVentasDTO;
 import com.example.demo.model.Paquetes;
 import com.example.demo.model.Reserva;
 import com.example.demo.service.PaqueteService;
@@ -69,17 +70,18 @@ public class ReservaRestController {
 	}
 
 	@DeleteMapping("/reservas/{id}")
-	public void delete(@PathVariable Long id) 
-	{
+	public void delete(@PathVariable Long id) {
 		reservaService.delete(id);
 	}
 	
 	@GetMapping("/paquetes")
     public List<Paquetes>listarPaquetes() throws Exception{
-
-        return paqueteService.listarPaquetes();
-   
-
+		return paqueteService.listarPaquetes();
+	}
+	
+	@GetMapping("/totalPaquetes")
+    public List<TotalVentasDTO> totalPaquetes() throws Exception{
+        return paqueteService.totalPaquetes();
 	}
 	
 	@GetMapping("/reservas-fecha/{fecha}")
