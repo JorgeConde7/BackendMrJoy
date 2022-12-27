@@ -3,6 +3,7 @@ package com.example.demo.restController;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.example.demo.dto.DataResponseDTO;
 import com.example.demo.model.Login;
 import com.example.demo.model.response.DataResponse;
 import com.example.demo.service.LoginService;
@@ -39,18 +43,21 @@ public class LoginRestController {
 	}
 
 	@GetMapping("login/{user}/{contrasenia}")
-	public DataResponse<Login> auth(@PathVariable String user, @PathVariable String contrasenia) {
-		DataResponse<Login> response = new DataResponse<>();
+	public DataResponse<String> auth(@PathVariable String user, @PathVariable String contrasenia) {
+		DataResponse<String> response = new DataResponse<>();
+		
 		try {
 			Login userFound = loginService.listarLoginUser(user, contrasenia);
-
-			if (userFound == null || userFound.getIdLogin() == null) {
+			
+			if (userFound == null) {
 				response.setStatus(404);
-				response.setMessage("Usuario y/o contraseña incorrecto");
+				response.setMessage("Usuario y/o contraseña incorrectos");
 				return response;
 			}
-
-			response.setData(userFound);
+			
+			String token = loginService.generateToken(userFound); 
+		
+			response.setData(token);
 			response.setStatus(200);
 			response.setMessage("Usuario encontrado");
 

@@ -16,6 +16,6 @@ public interface LoginService {
 	
 	public Login listarporId(Long id);
 	
-	
+	public String generateToken(Login userFound);
 	
 }
