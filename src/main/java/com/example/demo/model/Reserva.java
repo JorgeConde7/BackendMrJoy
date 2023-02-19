@@ -32,8 +32,8 @@ public class Reserva
 	private String hora;
 	@Column(name="cant_personas")
 	private int cantPersonas;
-	@Column(name="id_login")
-	private int idLogin;
+	@Column(name="acompaniante")
+	private int acompaniante;
 	@Column(name="nombres")
 	private String nombres;
 	@Column(name="apellido")
@@ -42,12 +42,12 @@ public class Reserva
 	private String telefono;
 	@Column(name="flag_tipo_reserva")
 	private String flagTipoReserva;
-	@Column(name="id_paquete")
-	private int idPaquete;
-	@Column(name="acompaniante")
-	private int acompaniante;
 	@Column(name="total_pago")
 	private double totalPago;
+	@Column(name="id_paquete")
+	private int idPaquete;
+	@Column(name="id_login")
+	private int idLogin;
 	
 	public Long getIdReserva() {
 		return idReserva;

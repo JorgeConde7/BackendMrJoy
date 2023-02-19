@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
+import com.example.demo.util.Constantes;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -28,9 +28,17 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	@Transactional(readOnly=true)
-	public Login listarLoginUser(String usuario,String password) {
-		// TODO Auto-generated method stub
-		return loginRepository.findByUsuarioAndContrasenia(usuario,password);
+	public Login buscarUsuario(String usuario,String password) {
+		return loginRepository.findByUsuarioAndContrasenia(usuario, password);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public Login validarUsuario(String usuario,String password,String tipouser) {
+		
+		
+	
+		return loginRepository.findByUsuarioAndContraseniaAndTipouser(usuario,password,tipouser);
 	}
 
 	@Override

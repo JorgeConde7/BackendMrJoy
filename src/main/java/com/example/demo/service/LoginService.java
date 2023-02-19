@@ -6,7 +6,7 @@ import com.example.demo.model.Login;
 
 public interface LoginService {
 	
-	public Login listarLoginUser(String usuario,String contrasenia);
+	public Login validarUsuario(String usuario,String contrasenia, String tipouser);
 	
 	public Login create(Login login);
 	
@@ -17,5 +17,7 @@ public interface LoginService {
 	public Login listarporId(Long id);
 	
 	public String generateToken(Login userFound);
+
+	Login buscarUsuario(String usuario, String password);
 	
 }
