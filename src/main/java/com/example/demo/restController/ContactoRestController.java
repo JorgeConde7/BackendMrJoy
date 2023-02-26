@@ -3,6 +3,8 @@ package com.example.demo.restController;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,7 @@ public class ContactoRestController {
 	
 	@Autowired
 	private ContactoService contactoService;
-	
+
 	@GetMapping("/contactos")
 	public List<Contacto> index(){
 		return contactoService.findAll();
@@ -31,21 +33,25 @@ public class ContactoRestController {
 	
 	//Método para mostrar por Id:
 	@GetMapping("/contactos/{id}")
-	public Contacto show(@PathVariable Long id) {
-		return contactoService.findById(id);
+	public ResponseEntity<?> show(@PathVariable Long id) {
+		Contacto contacto =contactoService.findById(id);
+		if (contacto!=null) {
+			return new ResponseEntity<>(contacto, HttpStatus.OK);
+		}
+		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 	
 	//Método para crear:
-		@PostMapping("/contactos")
-		public Contacto create(@RequestBody Contacto contacto) {
-			return contactoService.save(contacto);
-		}
+	@PostMapping("/contactos")
+	public Contacto create(@RequestBody Contacto contacto) {
+		return contactoService.save(contacto);
+	}
 		
 	//Método para estado:
 	@PutMapping("/contactos/{id}")
-		public Contacto update(@RequestBody Contacto contacto,@PathVariable Long id) {
+		public ResponseEntity<?> update(@RequestBody Contacto contacto,@PathVariable Long id) {
 		Contacto ContactoActual = contactoService.findById(id);
-				
+		if (contacto != null) {
 			ContactoActual.setNombres(contacto.getNombres());
 			ContactoActual.setCorreo(contacto.getCorreo());
 			ContactoActual.setTelefono(contacto.getTelefono());
@@ -53,8 +59,11 @@ public class ContactoRestController {
 			ContactoActual.setEstado(contacto.getEstado());
 			ContactoActual.setDescripcion(contacto.getDescripcion());
 			ContactoActual.setFechaRegistro(contacto.getFechaRegistro());
-			return contactoService.save(ContactoActual);
+			contactoService.save(ContactoActual);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
+		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
 			
 	//Método para eliminar:
 	@DeleteMapping("/contactos/{id}")

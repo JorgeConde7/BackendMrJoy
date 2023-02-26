@@ -13,27 +13,26 @@ import com.example.demo.service.ContactoService;
 public class ContactoServiceImpl implements ContactoService {
 	
 	@Autowired
-	private ContactoRepository contactoDao;
+	private ContactoRepository contactoRepository;
 
 	@Override
 	public List<Contacto> findAll() {
-		return (List<Contacto>) contactoDao.findAll();
+		return (List<Contacto>) contactoRepository.findAll();
 	}
 
 	@Override
 	public Contacto findById(Long Id) {
-		return contactoDao.findById(Id).orElse(null);
+		return contactoRepository.findById(Id).orElse(null);
 	}
 
 	@Override
 	public Contacto save(Contacto contacto) {
-		return contactoDao.save(contacto);
+		return contactoRepository.save(contacto);
 	}
 
 	@Override
 	public void delete(Long Id) {
-		contactoDao.deleteById(Id);
-
+		contactoRepository.deleteById(Id);
 	}
 
 }
