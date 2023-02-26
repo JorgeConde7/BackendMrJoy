@@ -40,7 +40,7 @@ public class ClienteRestController {
 	
 	//Método para mostrar por IdLogin:
 	@GetMapping("/clientesbyidlogin/{id}")
-	public Cliente showidLogin(@PathVariable int id) {
+	public Cliente showidLogin(@PathVariable Long id) {
 		return clienteService.findByIdLogin(id);
 	}
 	

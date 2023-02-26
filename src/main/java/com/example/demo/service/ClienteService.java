@@ -16,5 +16,6 @@ public interface ClienteService {
 	
 	public ResponseEntity<ClienteDTO> guardarDatos(ClienteDTO cliente);
 	
-	public Cliente findByIdLogin(int idlogin);
+	public Cliente findByIdLogin(Long idlogin);
+
 }

@@ -26,6 +26,7 @@ public class Cliente {
     private String direccion;
     private String genero;
     private Date fechaNacimiento;
+    private Long idLogin;
     private String rutaImg; 
     public String getRutaImg() {
 		return rutaImg;
@@ -33,8 +34,7 @@ public class Cliente {
 	public void setRutaImg(String rutaImg) {
 		this.rutaImg = rutaImg;
 	}
-	private int idLogin;
-    	
+
 	public String getNombres() {
 		return nombres;
 	}
@@ -98,12 +98,13 @@ public class Cliente {
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
-	public int getIdLogin() {
+	public Long getIdLogin() {
 		return idLogin;
 	}
-	public void setIdLogin(int idLogin) {
+	public void setIdLogin(Long idLogin) {
 		this.idLogin = idLogin;
 	}
+
 
 	
 	

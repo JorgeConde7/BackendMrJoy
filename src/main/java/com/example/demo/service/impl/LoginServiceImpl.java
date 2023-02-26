@@ -2,7 +2,9 @@ package com.example.demo.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Login;
+import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.LoginRepository;
 import com.example.demo.service.LoginService;
 
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,8 +26,10 @@ public class LoginServiceImpl implements LoginService {
 	private String JWT_SECRET_TOKEN;
 
 	@Autowired
-	
 	private LoginRepository loginRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 	@Override
 	@Transactional(readOnly=true)
@@ -36,8 +41,6 @@ public class LoginServiceImpl implements LoginService {
 	@Transactional(readOnly=true)
 	public Login validarUsuario(String usuario,String password,String tipouser) {
 		
-		
-	
 		return loginRepository.findByUsuarioAndContraseniaAndTipouser(usuario,password,tipouser);
 	}
 
@@ -70,15 +73,32 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public String generateToken(Login userFound) {
+		
+		String nombres,apellidos,dni,telefono,correo;
 		Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET_TOKEN);
 		
 		String username = userFound.getUsuario();
 		String profile = userFound.getTipouser();
 		Long idLogin = userFound.getIdLogin();
 		
+		Cliente cliente= new Cliente();
+		cliente= clienteRepository.findByIdLogin(idLogin);
+		
+		nombres=cliente.getNombres();
+		apellidos=cliente.getApePaterno()+" "+cliente.getApeMaterno();
+		dni= cliente.getDni();
+		telefono=cliente.getTelefono();
+		correo=cliente.getCorreo();
+		
+
 		String token = JWT.create()
 				.withClaim("username", username)
 				.withClaim("profile", profile)
+				.withClaim("nombres", nombres)
+				.withClaim("apellidos", apellidos)
+				.withClaim("dni", dni)
+				.withClaim("telefono", telefono)
+				.withClaim("correo", correo)		
 				.withClaim("id", idLogin)
 				.withClaim("create_at", new Date())
 				.sign(algorithm);

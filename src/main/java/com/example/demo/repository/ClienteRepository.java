@@ -6,6 +6,6 @@ import com.example.demo.model.Cliente;
 
 public interface ClienteRepository extends CrudRepository<Cliente, Long>{
 	
-	public Cliente findByIdLogin(int idlogin);
+	public Cliente findByIdLogin(Long idLogin);
 
 }

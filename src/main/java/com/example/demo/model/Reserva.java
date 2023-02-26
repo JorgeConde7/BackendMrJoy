@@ -40,6 +40,8 @@ public class Reserva
 	private String apellido;
 	@Column(name="telefono")
 	private String telefono;
+	@Column(name="correo")
+	private String correo;
 	@Column(name="flag_tipo_reserva")
 	private String flagTipoReserva;
 	@Column(name="total_pago")
@@ -126,6 +128,12 @@ public class Reserva
 	}
 	public void setTotalPago(double totalPago) {
 		this.totalPago = totalPago;
+	}
+	public String getCorreo() {
+		return correo;
+	}
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 
 	

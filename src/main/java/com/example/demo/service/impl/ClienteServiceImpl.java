@@ -70,7 +70,7 @@ public class ClienteServiceImpl implements ClienteService{
 		clienteDato.setTelefono(clienteDTO.getTelefono());
 		clienteDato.setDireccion(clienteDTO.getDireccion());
 		clienteDato.setGenero(clienteDTO.getGenero());
-		clienteDato.setIdLogin(datoLogin.getIdLogin().intValue());
+		clienteDato.setIdLogin(datoLogin.getIdLogin());
 		clienteDato.setFechaNacimiento(clienteDTO.getFechaNacimiento());
 				
 		Cliente clienteoGuardado=clienteDao.save(clienteDato);
@@ -81,7 +81,7 @@ public class ClienteServiceImpl implements ClienteService{
 
 	@Override
 	@Transactional
-	public Cliente findByIdLogin(int idlogin) {
+	public Cliente findByIdLogin(Long idlogin) {
 		return clienteDao.findByIdLogin(idlogin);
 	}
 
