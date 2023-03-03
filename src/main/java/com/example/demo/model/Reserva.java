@@ -40,8 +40,10 @@ public class Reserva
 	private String apellido;
 	@Column(name="telefono")
 	private String telefono;
-	@Column(name="correo")
-	private String correo;
+	@Column(name="email")
+	private String email;
+	@Column(name="has_email")
+	private Boolean hasEmail;
 	@Column(name="flag_tipo_reserva")
 	private String flagTipoReserva;
 	@Column(name="total_pago")
@@ -50,6 +52,11 @@ public class Reserva
 	private int idPaquete;
 	@Column(name="id_login")
 	private int idLogin;
+	@Column(name="fecha_modifacion")
+	private Date fechaModificacion;
+	@Column(name="usuario_modifacion")
+	private String usuarioModificacion;
+	
 	
 	public Long getIdReserva() {
 		return idReserva;
@@ -129,19 +136,31 @@ public class Reserva
 	public void setTotalPago(double totalPago) {
 		this.totalPago = totalPago;
 	}
-	public String getCorreo() {
-		return correo;
+	public String getEmail() {
+		return email;
 	}
-	public void setCorreo(String correo) {
-		this.correo = correo;
+	public void setEmail(String email) {
+		this.email = email;
 	}
+	public Boolean getHasEmail() {
+		return hasEmail;
+	}
+	public void setHasEmail(Boolean hasEmail) {
+		this.hasEmail = hasEmail;
+	}
+	public Date getFechaModificacion() {
+		return fechaModificacion;
+	}
+	public void setFechaModificacion(Date fechaModificacion) {
+		this.fechaModificacion = fechaModificacion;
+	}
+	public String getUsuarioModificacion() {
+		return usuarioModificacion;
+	}
+	public void setUsuarioModificacion(String usuarioModificacion) {
+		this.usuarioModificacion = usuarioModificacion;
+	}
+	
 
-	
-	
-
-	
-	
-	
-	
 	
 }

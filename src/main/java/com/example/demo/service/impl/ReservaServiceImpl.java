@@ -63,6 +63,7 @@ public class ReservaServiceImpl implements ReservaService {
 				
 		Utilitarios utilitarios= new Utilitarios();
 		reserva.setFechaRegistro(utilitarios.ObtenerFechaActual());
+		reserva.setHasEmail(false);
 		return reservaRepository.save(reserva);
 	}
 	
