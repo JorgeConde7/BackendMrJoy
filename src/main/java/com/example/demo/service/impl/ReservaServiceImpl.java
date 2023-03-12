@@ -97,6 +97,11 @@ public class ReservaServiceImpl implements ReservaService {
 		reservaRepository.deleteById(id);
 	}
 
+	@Override
+	public List<Reserva> listarPorIdLogin(int idLogin) {
+		return (List<Reserva>) reservaRepository.findByIdLogin(idLogin);
+	}
+
 	
 
 }

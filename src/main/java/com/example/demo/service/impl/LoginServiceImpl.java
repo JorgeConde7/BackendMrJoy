@@ -89,7 +89,7 @@ public class LoginServiceImpl implements LoginService {
 		String profile = userFound.getTipouser();
 		Long idLogin = userFound.getIdLogin();
 		
-		if(profile.equals(Constantes.FLAG_CLIENTE)) {
+		if(profile.equals(Constantes.VALOR_CLIENTE)) {
 			cliente= clienteRepository.findByIdLogin(idLogin);
 			nombres=cliente.getNombres();
 			apellidos=cliente.getApePaterno()+" "+cliente.getApeMaterno();
@@ -97,13 +97,13 @@ public class LoginServiceImpl implements LoginService {
 			telefono=cliente.getTelefono();
 			correo=cliente.getCorreo();
 		}
-		if(profile.equals(Constantes.FlAG_EMPLEADO) || profile.equals(Constantes.FLAG_ADMIN)){
+		if(profile.equals(Constantes.VALOR_EMPLEADO) || profile.equals(Constantes.VALOR_ADMIN)){
 			empleado= empleadoRespository.findByIdLogin(idLogin);
-			nombres=cliente.getNombres();
-			apellidos=cliente.getApePaterno()+" "+cliente.getApeMaterno();
-			dni= cliente.getDni();
-			telefono=cliente.getTelefono();
-			correo=cliente.getCorreo();
+			nombres=empleado.getNombres();
+			apellidos=empleado.getApellidos();
+			dni= empleado.getDni();
+			telefono=empleado.getTelefono();
+			correo=empleado.getCorreo();
 			
 		}
 		

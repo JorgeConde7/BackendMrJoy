@@ -94,4 +94,9 @@ public class ReservaRestController {
 	public List<Reserva> listarPorFecha(@PathVariable Date fecha) {
 		return reservaService.ListarPorFecha(fecha);
 	}
+	
+	@GetMapping("/reservas-idLogin/{idLogin}")
+	public List<Reserva> listarPorIdLogin(@PathVariable int idLogin) {
+		return reservaService.listarPorIdLogin(idLogin);
+	}
 }

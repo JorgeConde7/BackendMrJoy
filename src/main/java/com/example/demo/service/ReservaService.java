@@ -13,5 +13,5 @@ public interface ReservaService
 	public void delete(Long id);
 	
 	public List<Reserva> ListarPorFecha(Date fechaReserva);
-
+	public List<Reserva> listarPorIdLogin(int idLogin);
 }
