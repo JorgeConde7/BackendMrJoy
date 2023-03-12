@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.TotalVentasDTO;
 import com.example.demo.model.Paquetes;
 import com.example.demo.model.Reserva;
+import com.example.demo.model.response.DataResponse;
 import com.example.demo.service.PaqueteService;
 import com.example.demo.service.ReservaService;
 
@@ -34,24 +38,26 @@ public class ReservaRestController {
 	@GetMapping("/reservas")
 	public List<Reserva> index() {
 		return reservaService.findAll();
-
 	}
 
-	// mostrar id
 	@GetMapping("/reservas/{id}")
 	public Reserva show(@PathVariable Long id) {
 		return reservaService.findById(id);
 	}
 
-	// crear id
 	@PostMapping("/reservas")
-	public Reserva create(@RequestBody Reserva reserva) {
-		return reservaService.save(reserva);
+	public ResponseEntity<?> guardarReserva(@RequestBody Reserva reserva) throws Exception {
+		DataResponse<String> response = new DataResponse<>();
+		try{
+            return ResponseEntity.status(HttpStatus.OK).body(reservaService.guardarReserva(reserva));
+        }catch (DataAccessException e){
+            return  (ResponseEntity<?>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 
 	// actualizar
 	@PutMapping("/reservas/{id}")
-	public Reserva update(@RequestBody Reserva reserva, @PathVariable Long id) {
+	public Reserva update(@RequestBody Reserva reserva, @PathVariable Long id) throws Exception {
 		Reserva reservaActual = reservaService.findById(id);
 		reservaActual.setFechaRegistro(reserva.getFechaRegistro());
 		reservaActual.setFechaReserva(reserva.getFechaReserva());
@@ -66,7 +72,7 @@ public class ReservaRestController {
 		reservaActual.setAcompaniante(reserva.getAcompaniante());
 		reservaActual.setTotalPago(reserva.getTotalPago());
 
-		return reservaService.save(reservaActual);
+		return reservaService.guardarReserva(reservaActual);
 	}
 
 	@DeleteMapping("/reservas/{id}")

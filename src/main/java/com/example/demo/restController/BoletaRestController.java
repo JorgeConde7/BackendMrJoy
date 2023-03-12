@@ -1,6 +1,10 @@
 package com.example.demo.restController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,14 +48,6 @@ public class BoletaRestController {
         }
     }
 	
-	@PostMapping("guardar-boleta")
-    public ResponseEntity<?> save (@RequestBody  BoletaEntrada model){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(boletaService.save(model));
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"Error\"*:\"Error. Por favor intente mas tarde.\"}");
-        }
-    }
 	
 	@PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Integer id,@RequestBody BoletaEntrada boleta){
@@ -72,11 +68,17 @@ public class BoletaRestController {
     }
     
     @PostMapping("guardar")
-    public ResponseEntity<?> guardarBoleta (@RequestBody  BoletaDTO model){
+    public ResponseEntity<?> guardarBoleta (@RequestBody  BoletaDTO boleta) throws Exception{
+    	Map<String, Object> response= new HashMap<>();
+    	
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(boletaService.guardarBoleta(model));
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"Error\"*:\"Error. Por favor intente mas tarde.\"}");
+        	response.put("Mensaje", "Se guardo correctamente la boleta");
+          boletaService.guardarBoleta(boleta);
+          return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+        }catch (DataAccessException e){
+        	return new ResponseEntity<Map<String,Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+		
+		
     }
 }

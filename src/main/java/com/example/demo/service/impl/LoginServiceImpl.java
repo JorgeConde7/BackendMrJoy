@@ -3,8 +3,10 @@ package com.example.demo.service.impl;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.demo.model.Cliente;
+import com.example.demo.model.Empleado;
 import com.example.demo.model.Login;
 import com.example.demo.repository.ClienteRepository;
+import com.example.demo.repository.EmpleadoRespository;
 import com.example.demo.repository.LoginRepository;
 import com.example.demo.service.LoginService;
 
@@ -30,6 +32,9 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EmpleadoRespository empleadoRespository;
 
 	@Override
 	@Transactional(readOnly=true)
@@ -74,21 +79,33 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public String generateToken(Login userFound) {
 		
-		String nombres,apellidos,dni,telefono,correo;
+		Cliente cliente= null;
+		Empleado empleado=null;
+		
+		String nombres=null,apellidos=null,dni=null,telefono=null,correo=null;
 		Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET_TOKEN);
 		
 		String username = userFound.getUsuario();
 		String profile = userFound.getTipouser();
 		Long idLogin = userFound.getIdLogin();
 		
-		Cliente cliente= new Cliente();
-		cliente= clienteRepository.findByIdLogin(idLogin);
-		
-		nombres=cliente.getNombres();
-		apellidos=cliente.getApePaterno()+" "+cliente.getApeMaterno();
-		dni= cliente.getDni();
-		telefono=cliente.getTelefono();
-		correo=cliente.getCorreo();
+		if(profile.equals(Constantes.FLAG_CLIENTE)) {
+			cliente= clienteRepository.findByIdLogin(idLogin);
+			nombres=cliente.getNombres();
+			apellidos=cliente.getApePaterno()+" "+cliente.getApeMaterno();
+			dni= cliente.getDni();
+			telefono=cliente.getTelefono();
+			correo=cliente.getCorreo();
+		}
+		if(profile.equals(Constantes.FlAG_EMPLEADO) || profile.equals(Constantes.FLAG_ADMIN)){
+			empleado= empleadoRespository.findByIdLogin(idLogin);
+			nombres=cliente.getNombres();
+			apellidos=cliente.getApePaterno()+" "+cliente.getApeMaterno();
+			dni= cliente.getDni();
+			telefono=cliente.getTelefono();
+			correo=cliente.getCorreo();
+			
+		}
 		
 
 		String token = JWT.create()

@@ -32,44 +32,57 @@ public class PaqueteServiceImpl implements PaqueteService {
 	@Override
 	public List<TotalVentasDTO> totalPaquetes() throws Exception {
 		try {
-			List<Reserva> ListReserva= (List<Reserva>) reservaRepository.findAll();
-			double totalPaqNito=0;
-			double totalPaqMrJoy=0;
-			double totalPaqSuperJoy=0;
+			List<Reserva> listReserva= (List<Reserva>) reservaRepository.findAll();
+			List<Paquetes> listPaquete= paqueteRepository.findAll();
 			
-			for (Reserva datos : ListReserva) {
-				if(datos.getIdPaquete()==1) {
-					double totalAcomp=datos.getAcompaniante()*6;
-					totalPaqNito=totalPaqNito+(datos.getCantPersonas()*25.9)+totalAcomp;
-				}else if(datos.getIdPaquete()==2) {
-					double totalAcomp=datos.getAcompaniante()*6;
-					totalPaqMrJoy=totalPaqMrJoy+(datos.getCantPersonas()*32.9)+totalAcomp;
+			List<TotalVentasDTO> listTotalVentasDTO= new ArrayList<>();
+			
+		// HashMap<Integer, Double> totalPaquetesDic= new HashMap<>();	
+		 TotalVentasDTO totalVentasDTO= null;
+		 
+		 		for(Paquetes paquetes : listPaquete) {
+		 			double total= 0; 
+		 			for(Reserva reserva:listReserva) {
+		 				
+		 				if(paquetes.getIdPaquete()==reserva.getIdPaquete()) {	 
+		 					
+		 					total=total +reserva.getTotalPago();	    
+		 				}	
+		 			}
+		 			System.out.println(paquetes.getDescripcion()+"="+total);
+		 			totalVentasDTO= new TotalVentasDTO();
+		 			
+		 			totalVentasDTO.setNombre(paquetes.getDescripcion());
+				    totalVentasDTO.setTotal(total);
+				    
+				    listTotalVentasDTO.add(totalVentasDTO);		
 				}
-				else if(datos.getIdPaquete()==3) {
-					double totalAcomp=datos.getAcompaniante()*6;
-					totalPaqSuperJoy=totalPaqSuperJoy+(datos.getCantPersonas()*39.9)+totalAcomp;
+		
+		 /*
+				for (Reserva reserva : listReserva) {
+					
+					if(!totalPaquetesDic.containsKey(reserva.getIdPaquete())) {
+						totalPaquetesDic.put(reserva.getIdPaquete(), reserva.getTotalPago());
+					}
+					else {
+						totalPaquetesDic.put(reserva.getIdPaquete(), totalPaquetesDic.get(reserva.getIdPaquete())+reserva.getTotalPago());
+					}
+								
 				}
-			}
-			
-			List<TotalVentasDTO> ListTotalVentasDTO= new ArrayList<>();
-			
-			TotalVentasDTO totalVentasDTO= new TotalVentasDTO();
-			totalVentasDTO.setNombre("Paquete Nito");
-			totalVentasDTO.setTotal(totalPaqNito);
-			
-			TotalVentasDTO totalVentasDTO1= new TotalVentasDTO();
-			totalVentasDTO1.setNombre("Paquete Mr. Joy");
-			totalVentasDTO1.setTotal(totalPaqMrJoy);
-			
-			TotalVentasDTO totalVentasDTO2= new TotalVentasDTO();
-			totalVentasDTO2.setNombre("Super Mr. Joy");
-			totalVentasDTO2.setTotal(totalPaqSuperJoy);
-			
-			ListTotalVentasDTO.add(totalVentasDTO);
-			ListTotalVentasDTO.add(totalVentasDTO1);
-			ListTotalVentasDTO.add(totalVentasDTO2);
-			
-			return ListTotalVentasDTO;
+				
+				for (Paquetes paquetes : listPaquete) {
+					for (Map.Entry<Integer, Double> entry : totalPaquetesDic.entrySet()) {
+					    System.out.println("clave=" + entry.getKey() + ", valor=" + entry.getValue());
+					    if(paquetes.getIdPaquete()==entry.getKey()) {
+					    	totalVentasDTO= new TotalVentasDTO();
+						    totalVentasDTO.setNombre(paquetes.getDescripcion());
+						    totalVentasDTO.setTotal(entry.getValue());
+						    listTotalVentasDTO.add(totalVentasDTO);
+					    }			     
+					}
+				}			
+		 */	
+			return listTotalVentasDTO;
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}

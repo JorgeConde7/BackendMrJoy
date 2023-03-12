@@ -11,4 +11,5 @@ public interface ReservaRepository extends CrudRepository<Reserva, Long>
 {
 
 	List<Reserva> findByfechaReserva(Date fechaReserva);
+
 }

@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.BoletaDTO;
 import com.example.demo.dto.DetalleBoletaDTO;
+import com.example.demo.exception.ErrorException;
+import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.BoletaEntrada;
 import com.example.demo.model.DetalleBoleta;
 import com.example.demo.model.Login;
@@ -111,10 +113,10 @@ public class BoletaServiceImpl implements BoletaService{
 			Optional<Login> datosLogin=loginRepository.findById(id);
 			login=datosLogin.get();
 			
-			if(login.getTipouser().equals(Constantes.CLIENTE_LOGIN)) {
+			if(login.getTipouser().equals(Constantes.VALOR_CLIENTE)) {
 				boletaEntrada.setFlagTipoBoleta(Constantes.FLAG_CLIENTE);
 			}
-			if(login.getTipouser().equals(Constantes.EMPLEADO_LOGIN)) {
+			if(login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) {
 				boletaEntrada.setFlagTipoBoleta(Constantes.FlAG_EMPLEADO);	
 			}
 					
@@ -134,8 +136,10 @@ public class BoletaServiceImpl implements BoletaService{
 			}
 			
 			return boletaDTO;
+		}catch(MrJoyException e) {
+			throw e;
 		}catch(Exception e) {
-			throw new Exception(e.getMessage());
+			throw new ErrorException();
 		}
 		
 	}

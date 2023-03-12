@@ -9,9 +9,9 @@ public interface ReservaService
 {
 	public List<Reserva> findAll();
 	public Reserva findById(Long id);
-	public Reserva save(Reserva reserva);
+	public Reserva guardarReserva(Reserva reserva) throws Exception;
 	public void delete(Long id);
 	
 	public List<Reserva> ListarPorFecha(Date fechaReserva);
-	
+
 }
