@@ -99,8 +99,8 @@ public class ReservaRestController {
 				reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
 			}
 			
-
 			return reservaService.guardarReserva(reservaActual);
+			
 		}catch (Exception e) {
 			throw new ErrorException();
 		}
