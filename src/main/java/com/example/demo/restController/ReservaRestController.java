@@ -1,6 +1,10 @@
 package com.example.demo.restController;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.TemporalAmount;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.TotalVentasDTO;
 import com.example.demo.exception.ErrorException;
+import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Empleado;
 import com.example.demo.model.Paquetes;
@@ -72,35 +77,59 @@ public class ReservaRestController {
 	@PutMapping("/reservas/{id}")
 	public Reserva update(@RequestBody Reserva reserva, @PathVariable Long id) throws Exception {
 		try {
+			Reserva reservaActual = reservaService.findById(id);	
 			
 			Cliente cliente= null;
 			Empleado empleado=null;
+			
+			Calendar calInicio = Calendar.getInstance();
+			Calendar calFin = Calendar.getInstance();
 			Utilitarios utilitarios= new Utilitarios();
 			
-			Reserva reservaActual = reservaService.findById(id);				
-			reservaActual.setFechaReserva(reserva.getFechaReserva());
-			reservaActual.setHora(reserva.getHora());
-			reservaActual.setCantPersonas(reserva.getCantPersonas());
-			reservaActual.setNombres(reserva.getNombres());
-			reservaActual.setApellido(reserva.getApellido());
-			reservaActual.setTelefono(reserva.getTelefono());
-			reservaActual.setIdPaquete(reserva.getIdPaquete());
-			reservaActual.setAcompaniante(reserva.getAcompaniante());
-			reservaActual.setTotalPago(reserva.getTotalPago());
-			reservaActual.setFechaModificacion(utilitarios.ObtenerFechaActual());
-			
-			if(reservaActual.getFlagTipoReserva().equals(Constantes.FLAG_CLIENTE)) {
-				cliente=clienteRepository.findByIdLogin((long) reservaActual.getIdLogin());
-				reservaActual.setUsuarioModificacion(cliente.getNombres()+" "+cliente.getApePaterno());
+			if(reservaActual.getEstado().equals(Constantes.ESTADO_RESERVA_VIGENTE)) {
+				
+				reservaActual.setFechaModificacion(utilitarios.ObtenerFechaActual());
+				
+				calInicio.setTime(reservaActual.getFechaModificacion());
+				calFin.setTime(reservaActual.getFechaReserva());
+				
+				long difMillis = calFin.getTimeInMillis() - calInicio.getTimeInMillis();
+				int difDias = (int) (difMillis / (1000 * 60 * 60 * 24));
+				
+				if(difDias != 6) {
+					reservaActual.setFechaReserva(reserva.getFechaReserva());
+					reservaActual.setHora(reserva.getHora());
+					reservaActual.setCantPersonas(reserva.getCantPersonas());
+					reservaActual.setNombres(reserva.getNombres());
+					reservaActual.setApellido(reserva.getApellido());
+					reservaActual.setTelefono(reserva.getTelefono());
+					reservaActual.setIdPaquete(reserva.getIdPaquete());
+					reservaActual.setAcompaniante(reserva.getAcompaniante());
+					reservaActual.setTotalPago(reserva.getTotalPago());
+					
+					
+					
+					if(reservaActual.getFlagTipoReserva().equals(Constantes.FLAG_CLIENTE)) {
+						cliente=clienteRepository.findByIdLogin((long) reservaActual.getIdLogin());
+						reservaActual.setUsuarioModificacion(cliente.getNombres()+" "+cliente.getApePaterno());
+					}
+					
+					if(reservaActual.getFlagTipoReserva().equals(Constantes.FlAG_EMPLEADO)) {
+						empleado= empleadoRespository.findByIdLogin((long) reservaActual.getIdLogin());
+						reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
+					}
+					
+					return reservaService.guardarReserva(reservaActual);
+				}else {
+					throw new MrJoyException("COD03","Estimado cliente, su reserva se no se puede modificar ya que esta a 1 semana de empezar");
+				}			
+			}
+			else {
+				throw new MrJoyException("COD04","Estimado Cliente, no se puede actualizar una reserva caducada o cancelada");
 			}
 			
-			if(reservaActual.getFlagTipoReserva().equals(Constantes.FlAG_EMPLEADO)) {
-				empleado= empleadoRespository.findByIdLogin((long) reservaActual.getIdLogin());
-				reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
-			}
-			
-			return reservaService.guardarReserva(reservaActual);
-			
+		}catch(MrJoyException e) {
+			throw e;
 		}catch (Exception e) {
 			throw new ErrorException();
 		}

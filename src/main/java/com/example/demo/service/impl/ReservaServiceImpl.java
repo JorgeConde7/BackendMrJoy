@@ -76,9 +76,12 @@ public class ReservaServiceImpl implements ReservaService {
 			Utilitarios utilitarios= new Utilitarios();
 			if(reserva.getFechaRegistro()==null) {
 				reserva.setFechaRegistro(utilitarios.ObtenerFechaActual());
+				reserva.setEstado(Constantes.ESTADO_RESERVA_VIGENTE);
 			}
 			
 			reserva.setHasEmail(false);
+			
+			
 			return reservaRepository.save(reserva);
 			
 		}catch(MrJoyException e) {

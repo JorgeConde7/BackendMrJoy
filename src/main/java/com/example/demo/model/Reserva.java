@@ -48,6 +48,8 @@ public class Reserva
 	private String flagTipoReserva;
 	@Column(name="total_pago")
 	private double totalPago;
+	@Column(name="estado")
+	private String estado;
 	@Column(name="id_paquete")
 	private int idPaquete;
 	@Column(name="id_login")
@@ -159,6 +161,12 @@ public class Reserva
 	}
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 	
 
