@@ -1,6 +1,10 @@
 package com.example.demo.restController;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.TemporalAmount;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +22,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.TotalVentasDTO;
+import com.example.demo.exception.ErrorException;
+import com.example.demo.exception.MrJoyException;
+import com.example.demo.model.Cliente;
+import com.example.demo.model.Empleado;
 import com.example.demo.model.Paquetes;
 import com.example.demo.model.Reserva;
 import com.example.demo.model.response.DataResponse;
+import com.example.demo.repository.ClienteRepository;
+import com.example.demo.repository.EmpleadoRespository;
 import com.example.demo.service.PaqueteService;
 import com.example.demo.service.ReservaService;
+import com.example.demo.util.Constantes;
+import com.example.demo.util.Utilitarios;
 
 
 @CrossOrigin(origins = { "http://localhost:4200" })
@@ -34,6 +46,12 @@ public class ReservaRestController {
 	
 	@Autowired
 	private PaqueteService paqueteService;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EmpleadoRespository empleadoRespository;
 
 	@GetMapping("/reservas")
 	public List<Reserva> index() {
@@ -58,21 +76,64 @@ public class ReservaRestController {
 	// actualizar
 	@PutMapping("/reservas/{id}")
 	public Reserva update(@RequestBody Reserva reserva, @PathVariable Long id) throws Exception {
-		Reserva reservaActual = reservaService.findById(id);
-		reservaActual.setFechaRegistro(reserva.getFechaRegistro());
-		reservaActual.setFechaReserva(reserva.getFechaReserva());
-		reservaActual.setHora(reserva.getHora());
-		reservaActual.setCantPersonas(reserva.getCantPersonas());
-		reservaActual.setIdLogin(reserva.getIdLogin());
-		reservaActual.setNombres(reserva.getNombres());
-		reservaActual.setApellido(reserva.getApellido());
-		reservaActual.setTelefono(reserva.getTelefono());
-		reservaActual.setFlagTipoReserva(reserva.getFlagTipoReserva());
-		reservaActual.setIdPaquete(reserva.getIdPaquete());
-		reservaActual.setAcompaniante(reserva.getAcompaniante());
-		reservaActual.setTotalPago(reserva.getTotalPago());
-
-		return reservaService.guardarReserva(reservaActual);
+		try {
+			Reserva reservaActual = reservaService.findById(id);	
+			
+			Cliente cliente= null;
+			Empleado empleado=null;
+			
+			Calendar calInicio = Calendar.getInstance();
+			Calendar calFin = Calendar.getInstance();
+			Utilitarios utilitarios= new Utilitarios();
+			
+			if(reservaActual.getEstado().equals(Constantes.ESTADO_RESERVA_VIGENTE)) {
+				
+				reservaActual.setFechaModificacion(utilitarios.ObtenerFechaActual());
+				
+				calInicio.setTime(reservaActual.getFechaModificacion());
+				calFin.setTime(reservaActual.getFechaReserva());
+				
+				long difMillis = calFin.getTimeInMillis() - calInicio.getTimeInMillis();
+				int difDias = (int) (difMillis / (1000 * 60 * 60 * 24));
+				
+				if(difDias != 6) {
+					reservaActual.setFechaReserva(reserva.getFechaReserva());
+					reservaActual.setHora(reserva.getHora());
+					reservaActual.setCantPersonas(reserva.getCantPersonas());
+					reservaActual.setNombres(reserva.getNombres());
+					reservaActual.setApellido(reserva.getApellido());
+					reservaActual.setTelefono(reserva.getTelefono());
+					reservaActual.setIdPaquete(reserva.getIdPaquete());
+					reservaActual.setAcompaniante(reserva.getAcompaniante());
+					reservaActual.setTotalPago(reserva.getTotalPago());
+					
+					
+					
+					if(reservaActual.getFlagTipoReserva().equals(Constantes.FLAG_CLIENTE)) {
+						cliente=clienteRepository.findByIdLogin((long) reservaActual.getIdLogin());
+						reservaActual.setUsuarioModificacion(cliente.getNombres()+" "+cliente.getApePaterno());
+					}
+					
+					if(reservaActual.getFlagTipoReserva().equals(Constantes.FlAG_EMPLEADO)) {
+						empleado= empleadoRespository.findByIdLogin((long) reservaActual.getIdLogin());
+						reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
+					}
+					
+					return reservaService.guardarReserva(reservaActual);
+				}else {
+					throw new MrJoyException("COD03","Estimado cliente, su reserva se no se puede modificar ya que esta a 1 semana de empezar");
+				}			
+			}
+			else {
+				throw new MrJoyException("COD04","Estimado Cliente, no se puede actualizar una reserva caducada o cancelada");
+			}
+			
+		}catch(MrJoyException e) {
+			throw e;
+		}catch (Exception e) {
+			throw new ErrorException();
+		}
+		
 	}
 
 	@DeleteMapping("/reservas/{id}")
