@@ -13,7 +13,7 @@ public class Promociones {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_promociones;
-	private String promociones;
+	private String titulo;
 	private String descripcion;
 	private String foto;
 	public Long getId_promociones() {
@@ -22,11 +22,12 @@ public class Promociones {
 	public void setId_promociones(Long id_promociones) {
 		this.id_promociones = id_promociones;
 	}
-	public String getPromociones() {
-		return promociones;
+
+	public String getTitulo() {
+		return titulo;
 	}
-	public void setPromociones(String promociones) {
-		this.promociones = promociones;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 	public String getDescripcion() {
 		return descripcion;
