@@ -26,3 +26,13 @@ INSERT INTO `paquetes` (`id_paquete`, `descripcion`, `precio`) VALUES
 (2, 'Paquete Mr. Joy', 32.9),
 (3, 'Super Mr. Joy', 39.9);
 
+
+-- PARQUES ---
+INSERT INTO `parque` (`id_parque`, `horario1`, `horario2`, `nombre`, `ruta_img`) VALUES
+(1, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Mr Joy Lima', NULL),
+(2, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Joy Trujillo', NULL),
+(3, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Mr Joy Piura', NULL);
+
+-- PROMOCIONES --
+INSERT INTO prueba.promociones (id_promociones, descripcion, foto, titulo) VALUES (NULL, 'Al llegar a la boleteria reclama tu 20% de descuento solo de Lunes a Viernes antes de las 6:30 pm.', NULL, 'Promo 1'), (NULL, 'Si eres cliente frecuentemente en nuestro sitio reclama tu pase VIP.', NULL, 'Promo 2');
+INSERT INTO prueba.promociones (id_promociones, descripcion, foto, titulo) VALUES (NULL, 'Aprovecha que los DOMINGOS son los unicos dias para disfrutar de los juegos Libre para toda la familia.', NULL, 'Promo 4'), (NULL, 'Recuerda que si eres socio en Mr.Joy podras disfrutar de todos los descuentos.', NULL, 'Promo 5');

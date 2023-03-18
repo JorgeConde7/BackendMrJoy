@@ -23,16 +23,6 @@ public class Parque {
 	@Column(name="rutaImg")
 	private String rutaImg;
 	
-	
-	public Parque(int idParque, String nombre, String horario1, String horario2, String rutaImg) {
-		super();
-		this.idParque = idParque;
-		this.nombre = nombre;
-		this.horario1 = horario1;
-		this.horario2 = horario2;
-		this.rutaImg = rutaImg;
-	}
-	
 	public int getIdParque() {
 		return idParque;
 	}

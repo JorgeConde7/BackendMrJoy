@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Promociones;
 import com.example.demo.service.PromocionesService;
 
-
-
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/apiPromociones")
