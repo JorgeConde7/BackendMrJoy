@@ -20,7 +20,7 @@ import com.example.demo.service.PromocionesService;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/apiPromociones")
 public class PromocionesRestControllers {
 	@Autowired
 	private PromocionesService promocionesservice;
