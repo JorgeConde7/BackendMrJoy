@@ -30,17 +30,17 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>mysql</groupId>-->
-<!--			<artifactId>mysql-connector-java</artifactId>-->
-<!--			<scope>runtime</scope>-->
-<!--		</dependency>-->
-
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+        </dependency>
+
+		<!--<dependency>-->
+			<!--<groupId>org.postgresql</groupId>-->
+			<!--<artifactId>postgresql</artifactId>-->
+			<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

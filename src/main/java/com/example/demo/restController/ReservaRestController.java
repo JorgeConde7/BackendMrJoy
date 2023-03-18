@@ -6,7 +6,9 @@ import java.time.Period;
 import java.time.temporal.TemporalAmount;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -26,11 +28,13 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Empleado;
+import com.example.demo.model.Login;
 import com.example.demo.model.Paquetes;
 import com.example.demo.model.Reserva;
 import com.example.demo.model.response.DataResponse;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.EmpleadoRespository;
+import com.example.demo.repository.LoginRepository;
 import com.example.demo.service.PaqueteService;
 import com.example.demo.service.ReservaService;
 import com.example.demo.util.Constantes;
@@ -52,6 +56,9 @@ public class ReservaRestController {
 	
 	@Autowired
 	private EmpleadoRespository empleadoRespository;
+	
+	@Autowired
+	private LoginRepository loginRepository;
 
 	@GetMapping("/reservas")
 	public List<Reserva> index() {
@@ -77,26 +84,20 @@ public class ReservaRestController {
 	@PutMapping("/reservas/{id}")
 	public Reserva update(@RequestBody Reserva reserva, @PathVariable Long id) throws Exception {
 		try {
-			Reserva reservaActual = reservaService.findById(id);	
-			
-			Cliente cliente= null;
-			Empleado empleado=null;
-			
-			Calendar calInicio = Calendar.getInstance();
-			Calendar calFin = Calendar.getInstance();
+			Reserva reservaActual = reservaService.findById(id);										
 			Utilitarios utilitarios= new Utilitarios();
-			
+			Login login= new Login();			
+		
 			if(reservaActual.getEstado().equals(Constantes.ESTADO_RESERVA_VIGENTE)) {
 				
+				Optional<Login> datosLogin=loginRepository.findById((long) reservaActual.getIdLogin());
+				login=datosLogin.get();			
 				reservaActual.setFechaModificacion(utilitarios.ObtenerFechaActual());
 				
-				calInicio.setTime(reservaActual.getFechaModificacion());
-				calFin.setTime(reservaActual.getFechaReserva());
+				int difDias = CalcularDiferenciaDias(reservaActual);	
 				
-				long difMillis = calFin.getTimeInMillis() - calInicio.getTimeInMillis();
-				int difDias = (int) (difMillis / (1000 * 60 * 60 * 24));
-				
-				if(difDias != 6) {
+				if( (login.getTipouser().equals(Constantes.VALOR_CLIENTE) || 
+						login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias > 6) {
 					reservaActual.setFechaReserva(reserva.getFechaReserva());
 					reservaActual.setHora(reserva.getHora());
 					reservaActual.setCantPersonas(reserva.getCantPersonas());
@@ -106,18 +107,8 @@ public class ReservaRestController {
 					reservaActual.setIdPaquete(reserva.getIdPaquete());
 					reservaActual.setAcompaniante(reserva.getAcompaniante());
 					reservaActual.setTotalPago(reserva.getTotalPago());
-					
-					
-					
-					if(reservaActual.getFlagTipoReserva().equals(Constantes.FLAG_CLIENTE)) {
-						cliente=clienteRepository.findByIdLogin((long) reservaActual.getIdLogin());
-						reservaActual.setUsuarioModificacion(cliente.getNombres()+" "+cliente.getApePaterno());
-					}
-					
-					if(reservaActual.getFlagTipoReserva().equals(Constantes.FlAG_EMPLEADO)) {
-						empleado= empleadoRespository.findByIdLogin((long) reservaActual.getIdLogin());
-						reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
-					}
+						
+					DiferenciarUsuarioModificacion(reservaActual);
 					
 					return reservaService.guardarReserva(reservaActual);
 				}else {
@@ -136,21 +127,14 @@ public class ReservaRestController {
 		
 	}
 
+	
+
+
 	@DeleteMapping("/reservas/{id}")
 	public void delete(@PathVariable Long id) {
 		reservaService.delete(id);
 	}
-	
-	@GetMapping("/paquetes")
-    public List<Paquetes>listarPaquetes() throws Exception{
-		return paqueteService.listarPaquetes();
-	}
-	
-	@GetMapping("/totalPaquetes")
-    public List<TotalVentasDTO> totalPaquetes() throws Exception{
-        return paqueteService.totalPaquetes();
-	}
-	
+		
 	@GetMapping("/reservas-fecha/{fecha}")
 	public List<Reserva> listarPorFecha(@PathVariable Date fecha) {
 		return reservaService.ListarPorFecha(fecha);
@@ -160,4 +144,31 @@ public class ReservaRestController {
 	public List<Reserva> listarPorIdLogin(@PathVariable int idLogin) {
 		return reservaService.listarPorIdLogin(idLogin);
 	}
+	
+	
+	private int CalcularDiferenciaDias(Reserva reservaActual) {
+		Calendar calInicio = Calendar.getInstance();
+		Calendar calFin = Calendar.getInstance();
+		calInicio.setTime(reservaActual.getFechaModificacion());
+		calFin.setTime(reservaActual.getFechaReserva());
+		
+		long difMillis = calFin.getTimeInMillis() - calInicio.getTimeInMillis();
+		int difDias = (int) (difMillis / (1000 * 60 * 60 * 24));
+		return difDias;
+	}
+	
+	private void DiferenciarUsuarioModificacion(Reserva reservaActual) {
+		Cliente cliente;
+		Empleado empleado;
+		if(reservaActual.getFlagTipoReserva().equals(Constantes.FLAG_CLIENTE)) {
+			cliente=clienteRepository.findByIdLogin((long) reservaActual.getIdLogin());
+			reservaActual.setUsuarioModificacion(cliente.getNombres()+" "+cliente.getApePaterno());
+		}
+		
+		if(reservaActual.getFlagTipoReserva().equals(Constantes.FlAG_EMPLEADO)) {
+			empleado= empleadoRespository.findByIdLogin((long) reservaActual.getIdLogin());
+			reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
+		}
+	}
+	
 }

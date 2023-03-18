@@ -1,9 +1,12 @@
 package com.example.demo.service.impl;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.demo.dto.TotalVentasDTO;
 import com.example.demo.model.Paquetes;
 import com.example.demo.model.Reserva;
@@ -20,6 +23,7 @@ public class PaqueteServiceImpl implements PaqueteService {
 	private ReservaRepository reservaRepository;
 
 	@Override
+	@Transactional
 	public List<Paquetes> listarPaquetes() throws Exception {
 		try{
             List<Paquetes> boleta= paqueteRepository.findAll();
@@ -30,6 +34,31 @@ public class PaqueteServiceImpl implements PaqueteService {
 	}
 
 	@Override
+	@Transactional
+	public Paquetes guardarPaquete(Paquetes model) throws Exception {
+		try {
+			return paqueteRepository.save(model);
+		}catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	@Override
+	@Transactional
+	public Paquetes update(Integer id, Paquetes model) throws Exception {
+		try {
+			Optional<Paquetes> paqueteOptional= paqueteRepository.findById(id);
+			Paquetes paquete = paqueteOptional.get();
+			model.setIdPaquete(id);
+			paquete=paqueteRepository.save(model);
+			return paquete;
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+	
+	@Override
+	@Transactional
 	public List<TotalVentasDTO> totalPaquetes() throws Exception {
 		try {
 			List<Reserva> listReserva= (List<Reserva>) reservaRepository.findAll();
@@ -89,4 +118,15 @@ public class PaqueteServiceImpl implements PaqueteService {
 		
 
 	}
+
+	@Override
+	public Paquetes buscarxId(Integer id) throws Exception{
+		try {
+			Optional <Paquetes> paqueteOptional= paqueteRepository.findById(id);
+			return paqueteOptional.get();
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+	
 }

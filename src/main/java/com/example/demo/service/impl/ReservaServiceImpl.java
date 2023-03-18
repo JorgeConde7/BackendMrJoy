@@ -69,7 +69,8 @@ public class ReservaServiceImpl implements ReservaService {
 			if(login.getTipouser().equals(Constantes.VALOR_CLIENTE)) {
 				reserva.setFlagTipoReserva(Constantes.FLAG_CLIENTE);
 			}
-			if(login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) {
+			if(login.getTipouser().equals(Constantes.VALOR_EMPLEADO) || 
+					login.getTipouser().equals(Constantes.VALOR_ADMIN)) {
 				reserva.setFlagTipoReserva(Constantes.FlAG_EMPLEADO);	
 			}
 					
