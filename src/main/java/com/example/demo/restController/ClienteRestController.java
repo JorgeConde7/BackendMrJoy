@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ClienteDTO;
 import com.example.demo.dto.EmpleadoDTO;
+import com.example.demo.exception.ErrorException;
+import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.Cliente;
 import com.example.demo.service.ClienteService;
 
@@ -32,25 +34,21 @@ public class ClienteRestController {
 		return clienteService.findAll();
 	}
 	
-	//Método para mostrar por Id:
 	@GetMapping("/clientes/{id}")
 	public Cliente show(@PathVariable Long id) {
 		return clienteService.findById(id);
 	}
 	
-	//Método para mostrar por IdLogin:
 	@GetMapping("/clientesbyidlogin/{id}")
 	public Cliente showidLogin(@PathVariable Long id) {
 		return clienteService.findByIdLogin(id);
 	}
 	
-	//Método para crear:
 	@PostMapping("/clientes")
 	public Cliente create(@RequestBody Cliente cliente) {
 		return clienteService.save(cliente);
 	}
-	
-	//Método para actualizar:
+
 	@PutMapping("/clientes/{id}")
 	public Cliente update(@RequestBody Cliente cliente,@PathVariable Long id) {
 		Cliente ClienteActual = clienteService.findById(id);
@@ -68,17 +66,18 @@ public class ClienteRestController {
 		return clienteService.save(ClienteActual);
 	}
 	
-	//Método para eliminar:
-	@DeleteMapping("/clientes/{id}")
-	public void delete(@PathVariable Long id) {
-		clienteService.delete(id);
-	}
+
 	
 	@PostMapping("/guardarCliente")
 	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) 
 	{
-		System.out.println("OEKEE");
-		return clienteService.guardarDatos(clienteDTO);
+		try {
+			return clienteService.guardarDatos(clienteDTO);
+		}catch(MrJoyException e) {
+			throw e;
+		}catch (Exception e) {
+			throw new ErrorException();
+		}
 	}
 	
 }

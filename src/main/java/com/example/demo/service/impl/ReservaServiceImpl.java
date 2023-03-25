@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -96,7 +97,12 @@ public class ReservaServiceImpl implements ReservaService {
 	
 	@Override
 	public List<Reserva> ListarPorFecha(Date fechaReserva) {
-		return(List<Reserva>) reservaRepository.findByfechaReserva(fechaReserva);
+		
+		List<Reserva> reserva= new ArrayList<>();
+		reserva=reservaRepository.findByfechaReservaAndEstado(fechaReserva,Constantes.ESTADO_RESERVA_VIGENTE);
+		
+		return reserva;
+		
 	}
 
 	@Override

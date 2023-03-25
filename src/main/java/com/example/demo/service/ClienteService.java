@@ -12,10 +12,7 @@ public interface ClienteService {
 	public List<Cliente> findAll();
 	public Cliente findById (Long Id);
 	public Cliente save (Cliente cliente);
-	public void delete (Long Id);
-	
-	public ResponseEntity<ClienteDTO> guardarDatos(ClienteDTO cliente);
-	
+	public ResponseEntity<ClienteDTO> guardarDatos(ClienteDTO cliente) throws Exception;
 	public Cliente findByIdLogin(Long idlogin);
 
 }

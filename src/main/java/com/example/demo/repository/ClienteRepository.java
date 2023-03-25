@@ -9,5 +9,6 @@ import com.example.demo.model.Cliente;
 public interface ClienteRepository extends CrudRepository<Cliente, Long>{
 	
 	public Cliente findByIdLogin(Long idLogin);
+	boolean existsByCorreo(String Correo); 
 
 }

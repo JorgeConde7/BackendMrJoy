@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 //import java.util.Date;
@@ -15,11 +16,14 @@ import javax.persistence.Temporal;
 //import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.engine.jdbc.SerializableBlobProxy;
+
 @Entity
 @Table(name="reservas")
-public class Reserva 
+public class Reserva implements Serializable
 {
-	private static final Long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = 6914464141756203814L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

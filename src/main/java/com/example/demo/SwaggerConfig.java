@@ -1,5 +1,5 @@
 package com.example.demo;
-
+/*
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,9 +15,9 @@ import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
-@EnableWebMvc
+@EnableWebMvc*/
 public class SwaggerConfig {
-    @Bean
+  /*  @Bean
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
@@ -30,7 +30,7 @@ public class SwaggerConfig {
 
     private ApiInfo getApiInfo() {
         return new ApiInfo(
-                "Order Service API",
+                "Mr Joy Service APIs",
                 "Order Service API Description",
                 "1.0",
                 "http://codmind.com/terms",
@@ -39,5 +39,5 @@ public class SwaggerConfig {
                 "LICENSE URL",
                 Collections.emptyList()
         );
-    }
+    }*/
 }

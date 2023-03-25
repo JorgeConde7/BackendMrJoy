@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.ClienteDTO;
+import com.example.demo.exception.MrJoyException;
 //import com.example.demo.dto.EmpleadoDTO;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Empleado;
@@ -21,45 +22,64 @@ import com.example.demo.service.ClienteService;
 public class ClienteServiceImpl implements ClienteService{
 
 	@Autowired
-	private ClienteRepository clienteDao;
+	private ClienteRepository clienteRepository;
 	
 	@Autowired
 	private LoginRepository loginRepository;
 	
 	@Override
 	public List<Cliente> findAll() {
-		return (List<Cliente>) clienteDao.findAll();
+		return (List<Cliente>) clienteRepository.findAll();
 	}
 
 	@Override
 	@Transactional
 	public Cliente findById(Long Id) {
-		return clienteDao.findById(Id).orElse(null);
+		return clienteRepository.findById(Id).orElse(null);
 	}
 
 	@Override
 	@Transactional
 	public Cliente save(Cliente cliente) {
-		return clienteDao.save(cliente);
+		return clienteRepository.save(cliente);
 	}
 
-	@Override
-	@Transactional
-	public void delete(Long Id) {
-		clienteDao.deleteById(Id);
-
-	}
 	
 	@Override
-	public ResponseEntity<ClienteDTO> guardarDatos(ClienteDTO clienteDTO) {
+	public ResponseEntity<ClienteDTO> guardarDatos(ClienteDTO clienteDTO) throws Exception {
 		
+		if (loginRepository.existsByUsuario(clienteDTO.getUsuario())) {
+		    throw new MrJoyException("COD05","Ya existe un usuario, intente con otro");
+		}
+		
+		if (clienteRepository.existsByCorreo(clienteDTO.getCorreo())) {
+		    throw new MrJoyException("COD05","Ya existe un correo asociado, intente con otro");
+		}
+		
+		/*
+		List<Login> listalogin = loginRepository.findAll();
+		for (Login login : listalogin) {
 
-		Login login = new Login();
-		login.setUsuario(clienteDTO.getUsuario());
-		login.setContrasenia(clienteDTO.getContrasenia());
-		login.setTipouser(clienteDTO.getTipouser());
+			if (clienteDTO.getUsuario().equals(login.getUsuario())) {
+				throw new MrJoyException("COD05","Ya existe un usuario, intente con otro");
+			}
+		}
 		
-		Login datoLogin=loginRepository.save(login); 
+		List<Cliente> listaCliente = (List<Cliente>) clienteRepository.findAll();
+		for (Cliente cliente : listaCliente) {
+
+			if (clienteDTO.getCorreo().equals(cliente.getCorreo())) {
+				throw new MrJoyException("COD05","Ya existe un correo asociado, intente con otro");
+			}
+		}
+		*/
+		
+		Login loginDato = new Login();
+		loginDato.setUsuario(clienteDTO.getUsuario());
+		loginDato.setContrasenia(clienteDTO.getContrasenia());
+		loginDato.setTipouser(clienteDTO.getTipouser());
+		
+		Login datoLogin=loginRepository.save(loginDato); 
 		
 		Cliente clienteDato = new Cliente();
 		clienteDato.setApePaterno(clienteDTO.getApePaterno());
@@ -73,8 +93,7 @@ public class ClienteServiceImpl implements ClienteService{
 		clienteDato.setIdLogin(datoLogin.getIdLogin());
 		clienteDato.setFechaNacimiento(clienteDTO.getFechaNacimiento());
 				
-		Cliente clienteoGuardado=clienteDao.save(clienteDato);
-		
+		Cliente clienteoGuardado=clienteRepository.save(clienteDato);
 				
 		return ResponseEntity.status(HttpStatus.OK).body(clienteDTO);
 	}
@@ -82,7 +101,7 @@ public class ClienteServiceImpl implements ClienteService{
 	@Override
 	@Transactional
 	public Cliente findByIdLogin(Long idlogin) {
-		return clienteDao.findByIdLogin(idlogin);
+		return clienteRepository.findByIdLogin(idlogin);
 	}
 
 

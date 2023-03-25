@@ -8,16 +8,12 @@ public interface LoginService {
 	
 	public Login validarUsuario(String usuario,String contrasenia, String tipouser);
 	
-	public Login create(Login login);
-	
-	public List<Login> findAll();
-	
-	public void delete(Long id);
+	public Login crearUsuario(Login login) throws Exception;
+
 	
 	public Login listarporId(Long id);
 	
 	public String generateToken(Login userFound);
 
-	Login buscarUsuario(String usuario, String password);
 	
 }

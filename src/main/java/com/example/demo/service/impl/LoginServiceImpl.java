@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Empleado;
 import com.example.demo.model.Login;
@@ -36,11 +37,6 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private EmpleadoRespository empleadoRespository;
 
-	@Override
-	@Transactional(readOnly=true)
-	public Login buscarUsuario(String usuario,String password) {
-		return loginRepository.findByUsuarioAndContrasenia(usuario, password);
-	}
 	
 	@Override
 	@Transactional(readOnly=true)
@@ -51,24 +47,10 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	@Transactional
-	public Login create(Login login) {
+	public Login crearUsuario(Login login) throws Exception {		
 		return loginRepository.save(login);
-		
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Login> findAll() {
-		// TODO Auto-generated method stub
-		return loginRepository.findAll();
-	}
-
-	@Override
-	@Transactional
-	public void delete(Long id) {
-		loginRepository.deleteById(id);
-		
-	}
 
 	@Override
 	public Login listarporId(Long id) {
