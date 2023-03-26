@@ -10,13 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-//import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.engine.jdbc.SerializableBlobProxy;
 
 @Entity
 @Table(name="reservas")
@@ -46,6 +40,8 @@ public class Reserva implements Serializable
 	private String telefono;
 	@Column(name="email")
 	private String email;
+	@Column(name="dni")
+	private String dni;
 	@Column(name="has_email")
 	private Boolean hasEmail;
 	@Column(name="flag_tipo_reserva")
@@ -171,6 +167,12 @@ public class Reserva implements Serializable
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	public String getDni() {
+		return dni;
+	}
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 	
 

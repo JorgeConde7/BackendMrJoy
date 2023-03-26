@@ -100,9 +100,8 @@ public class ReservaRestController {
 						login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias > 6) {
 					reservaActual.setFechaReserva(reserva.getFechaReserva());
 					reservaActual.setHora(reserva.getHora());
+					reservaActual.setEmail(reserva.getEmail());
 					reservaActual.setCantPersonas(reserva.getCantPersonas());
-					reservaActual.setNombres(reserva.getNombres());
-					reservaActual.setApellido(reserva.getApellido());
 					reservaActual.setTelefono(reserva.getTelefono());
 					reservaActual.setIdPaquete(reserva.getIdPaquete());
 					reservaActual.setAcompaniante(reserva.getAcompaniante());
@@ -116,7 +115,7 @@ public class ReservaRestController {
 				}			
 			}
 			else {
-				throw new MrJoyException("COD04","Estimado Cliente, no se puede actualizar una reserva caducada o cancelada");
+				throw new MrJoyException("COD04","Estimado Cliente, no se puede actualizar una reserva caducada o anulada");
 			}
 			
 		}catch(MrJoyException e) {

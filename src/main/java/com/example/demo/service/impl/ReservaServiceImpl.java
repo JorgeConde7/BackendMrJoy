@@ -53,15 +53,8 @@ public class ReservaServiceImpl implements ReservaService {
 			if(reserva.getCantPersonas()<15){
 				throw new MrJoyException("COD02","Las reservas son sólo apartir de 15 personas en adelante");
 			}
-			Date fechaReserva = reserva.getFechaReserva();
-			Calendar c = Calendar.getInstance();
-			c.setTime(fechaReserva);
-			c.add(Calendar.DATE, 1);
-			java.util.Date dates = c.getTime();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			String format = formatter.format(dates);
-			reserva.setFechaReserva(Date.valueOf(format));
-					
+			formaterFecha(reserva);
+			
 			Login login= new Login();
 			long id=reserva.getIdLogin();
 			Optional<Login> datosLogin=loginRepository.findById(id);
@@ -73,17 +66,15 @@ public class ReservaServiceImpl implements ReservaService {
 			if(login.getTipouser().equals(Constantes.VALOR_EMPLEADO) || 
 					login.getTipouser().equals(Constantes.VALOR_ADMIN)) {
 				reserva.setFlagTipoReserva(Constantes.FlAG_EMPLEADO);	
-			}
-					
+			}		
+			
 			Utilitarios utilitarios= new Utilitarios();
 			if(reserva.getFechaRegistro()==null) {
 				reserva.setFechaRegistro(utilitarios.ObtenerFechaActual());
 				reserva.setEstado(Constantes.ESTADO_RESERVA_VIGENTE);
 			}
-			
 			reserva.setHasEmail(false);
-			
-			
+		
 			return reservaRepository.save(reserva);
 			
 		}catch(MrJoyException e) {
@@ -93,14 +84,13 @@ public class ReservaServiceImpl implements ReservaService {
 		}
 		
 	}
+
 	
 	
 	@Override
 	public List<Reserva> ListarPorFecha(Date fechaReserva) {
-		
 		List<Reserva> reserva= new ArrayList<>();
-		reserva=reservaRepository.findByfechaReservaAndEstado(fechaReserva,Constantes.ESTADO_RESERVA_VIGENTE);
-		
+		reserva=reservaRepository.findByfechaReservaAndEstado(fechaReserva,Constantes.ESTADO_RESERVA_VIGENTE);	
 		return reserva;
 		
 	}
@@ -116,5 +106,13 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	
+	
+	private void formaterFecha(Reserva reserva) {
+		Date fechaReserva = reserva.getFechaReserva();
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(fechaReserva);
+		reserva.setFechaReserva(Date.valueOf(formattedDate));
+	}
 
 }
