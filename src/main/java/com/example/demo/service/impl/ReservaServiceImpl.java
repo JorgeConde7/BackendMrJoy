@@ -105,6 +105,21 @@ public class ReservaServiceImpl implements ReservaService {
 		return (List<Reserva>) reservaRepository.findByIdLogin(idLogin);
 	}
 
+	@Override
+	public List<Reserva> buscarReserva(String campo, String valor) throws Exception {
+		
+		switch(campo) {
+	      case "nombres":
+	        return reservaRepository.findByNombres(valor);
+	      case "apellido":
+	        return reservaRepository.findByApellido(valor);
+	      case "dni":
+	        return reservaRepository.findByDni(valor);
+	      default:
+	        return new ArrayList<Reserva>();
+	    }
+	 }
+	
 	
 	
 	private void formaterFecha(Reserva reserva) {
@@ -114,5 +129,7 @@ public class ReservaServiceImpl implements ReservaService {
 		String formattedDate = formatter.format(fechaReserva);
 		reserva.setFechaReserva(Date.valueOf(formattedDate));
 	}
+
+	
 
 }

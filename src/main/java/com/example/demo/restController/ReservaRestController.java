@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.TotalVentasDTO;
@@ -144,6 +145,10 @@ public class ReservaRestController {
 		return reservaService.listarPorIdLogin(idLogin);
 	}
 	
+	 @GetMapping("/buscar")
+	  public List<Reserva> buscar(@RequestParam("campo") String campo, @RequestParam("valor") String valor) throws Exception {
+	    return reservaService.buscarReserva(campo, valor);
+	  }
 	
 	private int CalcularDiferenciaDias(Reserva reservaActual) {
 		Calendar calInicio = Calendar.getInstance();
