@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.TotalVentasDTO;
@@ -101,9 +102,8 @@ public class ReservaRestController {
 						login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias > 6) {
 					reservaActual.setFechaReserva(reserva.getFechaReserva());
 					reservaActual.setHora(reserva.getHora());
+					reservaActual.setEmail(reserva.getEmail());
 					reservaActual.setCantPersonas(reserva.getCantPersonas());
-					reservaActual.setNombres(reserva.getNombres());
-					reservaActual.setApellido(reserva.getApellido());
 					reservaActual.setTelefono(reserva.getTelefono());
 					reservaActual.setIdPaquete(reserva.getIdPaquete());
 					reservaActual.setAcompaniante(reserva.getAcompaniante());
@@ -117,7 +117,7 @@ public class ReservaRestController {
 				}			
 			}
 			else {
-				throw new MrJoyException("COD04","Estimado Cliente, no se puede actualizar una reserva caducada o cancelada");
+				throw new MrJoyException("COD04","Estimado Cliente, no se puede actualizar una reserva caducada o anulada");
 			}
 			
 		}catch(MrJoyException e) {
@@ -146,6 +146,10 @@ public class ReservaRestController {
 		return reservaService.listarPorIdLogin(idLogin);
 	}
 	
+	 @GetMapping("/buscar")
+	  public List<Reserva> buscar(@RequestParam("campo") String campo, @RequestParam("valor") String valor) throws Exception {
+	    return reservaService.buscarReserva(campo, valor);
+	  }
 	
 	private int CalcularDiferenciaDias(Reserva reservaActual) {
 		Calendar calInicio = Calendar.getInstance();

@@ -14,4 +14,6 @@ public interface ReservaService
 	
 	public List<Reserva> ListarPorFecha(Date fechaReserva);
 	public List<Reserva> listarPorIdLogin(int idLogin);
+	
+	public List<Reserva> buscarReserva(String campo,String valor)throws Exception;;
 }

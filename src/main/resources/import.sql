@@ -29,10 +29,13 @@ INSERT INTO `paquetes` (`id_paquete`, `descripcion`, `precio`) VALUES
 
 -- PARQUES ---
 INSERT INTO `parque` (`id_parque`, `horario1`, `horario2`, `nombre`, `ruta_img`) VALUES
-(1, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Mr Joy Lima', NULL),
-(2, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Joy Trujillo', NULL),
-(3, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Mr Joy Piura', NULL);
+(1, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Mr Joy Lima', 'https://www.mrjoy.com.pe/wp-content/uploads/2019/12/limalogo2.jpg'),
+(2, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Joy Trujillo', 'https://www.mrjoy.com.pe/wp-content/uploads/2019/09/trujillo.jpg'),
+(3, 'Lunes a Viernes 09:00 a 21:00', 'Sábado de 11:00 a 21:00 y Domingo de 11:00 a 19:00', 'Mr Joy Piura', https://www.mrjoy.com.pe/wp-content/uploads/2019/09/piura.jpg);
 
 -- PROMOCIONES --
-INSERT INTO prueba.promociones (id_promociones, descripcion, foto, titulo) VALUES (NULL, 'Al llegar a la boleteria reclama tu 20% de descuento solo de Lunes a Viernes antes de las 6:30 pm.', NULL, 'Promo 1'), (NULL, 'Si eres cliente frecuentemente en nuestro sitio reclama tu pase VIP.', NULL, 'Promo 2');
-INSERT INTO prueba.promociones (id_promociones, descripcion, foto, titulo) VALUES (NULL, 'Aprovecha que los DOMINGOS son los unicos dias para disfrutar de los juegos Libre para toda la familia.', NULL, 'Promo 4'), (NULL, 'Recuerda que si eres socio en Mr.Joy podras disfrutar de todos los descuentos.', NULL, 'Promo 5');
+INSERT INTO prueba.promociones (id_promociones, descripcion, foto, titulo) VALUES 
+('Al llegar a la boleteria reclama tu 20% de descuento solo de Lunes a Viernes antes de las 6:30 pm.', NULL, 'Promo 1'), 
+('Si eres cliente frecuentemente en nuestro sitio reclama tu pase VIP.', NULL, 'Promo 2');
+('Aprovecha que los DOMINGOS son los unicos dias para disfrutar de los juegos Libre para toda la familia.', NULL, 'Promo 4'), 
+('Recuerda que si eres socio en Mr.Joy podras disfrutar de todos los descuentos.', NULL, 'Promo 5');

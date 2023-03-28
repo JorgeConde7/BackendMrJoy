@@ -1,6 +1,5 @@
 package com.example.demo;
-
-import springfox.documentation.service.Contact;
+/*
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -13,31 +12,31 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
-//@Configuration
-//@EnableSwagger2
-//@EnableWebMvc
+@Configuration
+@EnableSwagger2
+@EnableWebMvc*/
 public class SwaggerConfig {
-//    @Bean
-//    public Docket apiDocket() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.example.demo.restController"))
-//                .paths(PathSelectors.any())
-//                .build()
-//                .apiInfo(getApiInfo())
-//                ;
-//    }
-//
-//    private ApiInfo getApiInfo() {
-//        return new ApiInfo(
-//                "Order Service API",
-//                "Order Service API Description",
-//                "1.0",
-//                "http://codmind.com/terms",
-//                new Contact("Codmind", "https://codmind.com", "apis@codmind.com"),
-//                "LICENSE",
-//                "LICENSE URL",
-//                Collections.emptyList()
-//        );
-//    }
+  /*  @Bean
+    public Docket apiDocket() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.example.demo.restController"))
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(getApiInfo())
+                ;
+    }
+
+    private ApiInfo getApiInfo() {
+        return new ApiInfo(
+                "Mr Joy Service APIs",
+                "Order Service API Description",
+                "1.0",
+                "http://codmind.com/terms",
+                new Contact("Codmind", "https://codmind.com", "apis@codmind.com"),
+                "LICENSE",
+                "LICENSE URL",
+                Collections.emptyList()
+        );
+    }*/
 }

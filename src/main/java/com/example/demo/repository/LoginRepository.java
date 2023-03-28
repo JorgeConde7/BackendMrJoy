@@ -11,6 +11,8 @@ public interface LoginRepository extends JpaRepository<Login, Long>{
 
 	public Login findByUsuarioAndContraseniaAndTipouser (String usuario, String password, String tipouser);
 
-	public Login findByUsuarioAndContrasenia(String usuario, String password);
+	boolean existsByUsuario(String Usuario);
+	
+	
 
 }

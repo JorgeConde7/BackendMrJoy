@@ -15,15 +15,13 @@ public class Contacto {
 	private String correo;
 	private String telefono;
 	private String asunto;
-	private String estado;
 	private String descripcion;
-	@Temporal(TemporalType.DATE)
 	private Date fechaRegistro;
-
-	@PrePersist
-	public void prePersist() {
-		fechaRegistro = new Date();
-	}
+	private String estado;
+	private String usuarioAtencion;
+	private Date fechaAtencion;
+	private String respuestaAtencion;
+	private Long idLogin;
 
 	public Date getFechaRegistro() {
 		return fechaRegistro;
@@ -74,5 +72,38 @@ public class Contacto {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+	public String getUsuarioAtencion() {
+		return usuarioAtencion;
+	}
+
+	public void setUsuarioAtencion(String usuarioAtencion) {
+		this.usuarioAtencion = usuarioAtencion;
+	}
+
+	public Date getFechaAtencion() {
+		return fechaAtencion;
+	}
+	public void setFechaAtencion(Date fechaAtencion) {
+		this.fechaAtencion = fechaAtencion;
+	}
+	public String getRespuestaAtencion() {
+		return respuestaAtencion;
+	}
+
+	public void setRespuestaAtencion(String respuestaAtencion) {
+		this.respuestaAtencion = respuestaAtencion;
+	}
+	public Long getIdLogin() {
+		return idLogin;
+	}
+	public void setIdLogin(Long idLogin) {
+		this.idLogin = idLogin;
+	}
+
+
+
+
+	
 	
 }

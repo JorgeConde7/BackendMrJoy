@@ -16,4 +16,6 @@ public class Constantes {
 	public final static String MENSAJE_ERROR_500="Ocurrio un error al procesar la solicitud";
 	public final static String COD_ERROR_500="COD01";
 	
+	public final static String ESTADO_REGISTRADO="registrado";
+	public final static String ESTADO_RESUELTO="resuelto";
 }

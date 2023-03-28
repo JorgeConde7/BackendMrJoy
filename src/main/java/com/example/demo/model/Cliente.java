@@ -15,7 +15,6 @@ public class Cliente {
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-   
 	private Long idCliente;
 	private String nombres;
     private String apePaterno;
@@ -28,6 +27,7 @@ public class Cliente {
     private Date fechaNacimiento;
     private Long idLogin;
     private String rutaImg; 
+    
     public String getRutaImg() {
 		return rutaImg;
 	}

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 //import java.util.Date;
@@ -9,17 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-//import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="reservas")
-public class Reserva 
+public class Reserva implements Serializable
 {
-	private static final Long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = 6914464141756203814L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,6 +40,8 @@ public class Reserva
 	private String telefono;
 	@Column(name="email")
 	private String email;
+	@Column(name="dni")
+	private String dni;
 	@Column(name="has_email")
 	private Boolean hasEmail;
 	@Column(name="flag_tipo_reserva")
@@ -167,6 +167,12 @@ public class Reserva
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	public String getDni() {
+		return dni;
+	}
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 	
 

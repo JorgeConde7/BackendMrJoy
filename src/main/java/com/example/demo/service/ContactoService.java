@@ -6,9 +6,9 @@ import com.example.demo.model.Contacto;
 
 public interface ContactoService {
 	
-	public List<Contacto> findAll();
-	public Contacto findById (Long Id);
-	public Contacto save (Contacto contacto);
-	public void delete (Long Id);
+	public List<Contacto> findAll() throws Exception;
+	public List<Contacto> listarXidLogin (Long idCliente) throws Exception;
+	public Contacto save (Contacto contacto) throws Exception;
+	public Contacto responder(Contacto contacto, Long idContacto) throws Exception;
 
 }

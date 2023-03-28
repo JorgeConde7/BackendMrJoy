@@ -27,47 +27,24 @@ public class ContactoRestController {
 	private ContactoService contactoService;
 
 	@GetMapping("/contactos")
-	public List<Contacto> index(){
+	public List<Contacto> index() throws Exception{
 		return contactoService.findAll();
 	}
 	
-	//Método para mostrar por Id:
 	@GetMapping("/contactos/{id}")
-	public ResponseEntity<?> show(@PathVariable Long id) {
-		Contacto contacto =contactoService.findById(id);
-		if (contacto!=null) {
-			return new ResponseEntity<>(contacto, HttpStatus.OK);
-		}
-		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	public List<Contacto> listarxIdLogin(@PathVariable Long id) throws Exception {
+		return contactoService.listarXidLogin(id);
 	}
 	
-	//Método para crear:
 	@PostMapping("/contactos")
-	public Contacto create(@RequestBody Contacto contacto) {
+	public Contacto create(@RequestBody Contacto contacto) throws Exception {
 		return contactoService.save(contacto);
-	}
-		
-	//Método para estado:
+	}	
+
 	@PutMapping("/contactos/{id}")
-		public ResponseEntity<?> update(@RequestBody Contacto contacto,@PathVariable Long id) {
-		Contacto ContactoActual = contactoService.findById(id);
-		if (contacto != null) {
-			ContactoActual.setNombres(contacto.getNombres());
-			ContactoActual.setCorreo(contacto.getCorreo());
-			ContactoActual.setTelefono(contacto.getTelefono());
-			ContactoActual.setAsunto(contacto.getAsunto());
-			ContactoActual.setEstado(contacto.getEstado());
-			ContactoActual.setDescripcion(contacto.getDescripcion());
-			ContactoActual.setFechaRegistro(contacto.getFechaRegistro());
-			contactoService.save(ContactoActual);
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
-		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	public Contacto update(@RequestBody Contacto contacto,@PathVariable Long id) throws Exception{
+		return contactoService.responder(contacto, id);
 	}
 			
-	//Método para eliminar:
-	@DeleteMapping("/contactos/{id}")
-	public void delete(@PathVariable Long id) {
-		contactoService.delete(id);
-	}
+
 }

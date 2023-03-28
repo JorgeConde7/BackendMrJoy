@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import java.sql.Date;
 import java.util.List;
 
 public class BoletaDTO {
