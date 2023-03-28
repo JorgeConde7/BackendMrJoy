@@ -78,7 +78,8 @@ public class ClienteRestController {
 	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) 
 	{
 		System.out.println("OEKEE");
-		return clienteService.guardarDatos(clienteDTO);
+		ResponseEntity<ClienteDTO>  newCliente = clienteService.guardarDatos(clienteDTO);
+		return newCliente;
 	}
 	
 }

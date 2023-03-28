@@ -74,7 +74,8 @@ public class ReservaRestController {
 	public ResponseEntity<?> guardarReserva(@RequestBody Reserva reserva) throws Exception {
 		DataResponse<String> response = new DataResponse<>();
 		try{
-            return ResponseEntity.status(HttpStatus.OK).body(reservaService.guardarReserva(reserva));
+			Reserva newReserva = reservaService.guardarReserva(reserva);
+            return ResponseEntity.status(HttpStatus.OK).body(newReserva);
         }catch (DataAccessException e){
             return  (ResponseEntity<?>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
