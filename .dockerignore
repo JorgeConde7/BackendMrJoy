@@ -1,0 +1,83 @@
+# flyctl launch added from .gitignore
+**\HELP.md
+**\target
+!**\.mvn\wrapper\maven-wrapper.jar
+!**\**\src\main\**\target
+!**\**\src\test\**\target
+
+### STS ###
+**\.apt_generated
+**\.classpath
+**\.factorypath
+**\.project
+**\.settings
+**\.springBeans
+**\.sts4-cache
+
+### IntelliJ IDEA ###
+**\.idea
+**\*.iws
+**\*.iml
+**\*.ipr
+
+### NetBeans ###
+nbproject\private
+nbbuild
+dist
+nbdist
+.nb-gradle
+**\build
+!**\**\src\main\**\build
+!**\**\src\test\**\build
+
+### VS Code ###
+**\.vscode
+**\bin
+**\bin
+
+# flyctl launch added from .idea\.gitignore
+# Default ignored files
+.idea\shelf
+.idea\workspace.xml
+# Editor-based HTTP Client requests
+.idea\httpRequests
+# Datasource local storage ignored files
+.idea\dataSources
+.idea\dataSources.local.xml
+
+# flyctl launch added from bin\.gitignore
+bin\**\HELP.md
+bin\**\target
+!bin\**\.mvn\wrapper\maven-wrapper.jar
+!bin\**\**\src\main\**\target
+!bin\**\**\src\test\**\target
+
+### STS ###
+bin\**\.apt_generated
+bin\**\.classpath
+bin\**\.factorypath
+bin\**\.project
+bin\**\.settings
+bin\**\.springBeans
+bin\**\.sts4-cache
+
+### IntelliJ IDEA ###
+bin\**\.idea
+bin\**\*.iws
+bin\**\*.iml
+bin\**\*.ipr
+
+### NetBeans ###
+bin\nbproject\private
+bin\nbbuild
+bin\dist
+bin\nbdist
+bin\.nb-gradle
+bin\**\build
+!bin\**\**\src\main\**\build
+!bin\**\**\src\test\**\build
+
+### VS Code ###
+bin\**\.vscode
+bin\**\src\main\resources\application.properties
+fly.toml
