@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpServerErrorException;
 
 import com.example.demo.exception.ErrorException;
 import com.example.demo.exception.MrJoyException;
-
+import com.example.demo.model.Cliente;
+import com.example.demo.model.Empleado;
 import com.example.demo.model.Login;
 import com.example.demo.model.Reserva;
+import com.example.demo.repository.ClienteRepository;
+import com.example.demo.repository.EmpleadoRespository;
 import com.example.demo.repository.LoginRepository;
 import com.example.demo.repository.ReservaRepository;
 import com.example.demo.service.ReservaService;
@@ -35,6 +35,13 @@ public class ReservaServiceImpl implements ReservaService {
 	
 	@Autowired
 	private LoginRepository loginRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EmpleadoRespository empleadoRespository;
+	
 	
 	@Override
 	@Transactional(readOnly=true)
@@ -96,10 +103,74 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		reservaRepository.deleteById(id);
+	public Boolean eliminarReserva(Reserva reserva, Long idReserva) throws Exception{
+		Utilitarios utilitarios= new Utilitarios();
+
+		try {
+			Reserva reservaActual=reservaRepository.findById(idReserva).orElse(null);
+			
+			if(!reservaActual.getEstado().equals(Constantes.ESTADO_RESERVA_VIGENTE)) {
+				throw new MrJoyException("COD07","No se puede eliminar una reserva caducada o anulada");
+			}
+			
+				Login login=loginRepository.findById((long) reserva.getIdLogin()).orElse(null);
+				reservaActual.setFechaModificacion(utilitarios.ObtenerFechaActual());
+				int difDias=CalcularDiferenciaDias(reservaActual);
+				
+				if((login.getTipouser().equals(Constantes.VALOR_ADMIN))){
+					
+					reservaActual.setEstado(Constantes.ESTADO_RESERVA_ANULADO);
+					setUsuarioModificacion(reserva, reservaActual);
+					 reservaRepository.save(reservaActual);
+					 return true;
+				}
+				
+				if ( (login.getTipouser().equals(Constantes.VALOR_CLIENTE) || 
+						login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias > 2) {
+					
+					reservaActual.setEstado(Constantes.ESTADO_RESERVA_ANULADO);
+					setUsuarioModificacion(reserva, reservaActual);
+					reservaRepository.save(reservaActual);
+					return true;
+				}else {
+					throw new MrJoyException("COD03","La reserva no se puede anular");
+				}
+								
+			
+		}catch(MrJoyException e) {
+			throw e;
+		}catch(Exception e) {
+			throw new ErrorException();
+		}
+		
 	}
 
+	private void setUsuarioModificacion(Reserva reserva, Reserva reservaActual) {
+
+		if(reserva.getFlagTipoReserva().equals(Constantes.FLAG_CLIENTE)) {
+			Cliente	cliente=clienteRepository.findByIdLogin((long) reserva.getIdLogin());
+			reservaActual.setUsuarioModificacion(cliente.getNombres()+" "+cliente.getApePaterno());
+		}
+		
+		if(reserva.getFlagTipoReserva().equals(Constantes.FlAG_EMPLEADO)) {
+			Empleado empleado= empleadoRespository.findByIdLogin((long) reserva.getIdLogin());
+			reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
+		}
+	}
+
+	private int CalcularDiferenciaDias(Reserva reserva) {
+		Calendar calInicio = Calendar.getInstance();
+		Calendar calFin = Calendar.getInstance();
+		calInicio.setTime(reserva.getFechaRegistro());
+		calFin.setTime(reserva.getFechaModificacion());
+		
+		long difMillis = calFin.getTimeInMillis() - calInicio.getTimeInMillis();
+		int difDias = (int) (difMillis / (1000 * 60 * 60 * 24));
+		return difDias;
+	}
+	
+
+	
 	@Override
 	public List<Reserva> listarPorIdLogin(int idLogin) {
 		return (List<Reserva>) reservaRepository.findByIdLogin(idLogin);

@@ -10,7 +10,7 @@ public interface ReservaService
 	public List<Reserva> findAll();
 	public Reserva findById(Long id);
 	public Reserva guardarReserva(Reserva reserva) throws Exception;
-	public void delete(Long id);
+	public Boolean eliminarReserva(Reserva reserva, Long id) throws Exception;
 	
 	public List<Reserva> ListarPorFecha(Date fechaReserva);
 	public List<Reserva> listarPorIdLogin(int idLogin);
