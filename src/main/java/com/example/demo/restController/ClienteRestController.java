@@ -39,7 +39,7 @@ public class ClienteRestController {
 		return clienteService.findById(id);
 	}
 	
-	@GetMapping("/clientesbyidlogin/{id}")
+	@GetMapping("/clientebyidlogin/{id}")
 	public Cliente showidLogin(@PathVariable Long id) {
 		return clienteService.findByIdLogin(id);
 	}
