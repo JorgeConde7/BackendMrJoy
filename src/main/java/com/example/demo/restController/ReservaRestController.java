@@ -46,11 +46,9 @@ import com.example.demo.util.Utilitarios;
 @RestController
 @RequestMapping("/apireserva")
 public class ReservaRestController {
-	@Autowired
-	private ReservaService reservaService;
 	
 	@Autowired
-	private PaqueteService paqueteService;
+	private ReservaService reservaService;
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
@@ -109,7 +107,7 @@ public class ReservaRestController {
 					reservaActual.setAcompaniante(reserva.getAcompaniante());
 					reservaActual.setTotalPago(reserva.getTotalPago());
 						
-					DiferenciarUsuarioModificacion(reservaActual);
+					DiferenciarUsuarioModificacion(reserva);
 					
 					return reservaService.guardarReserva(reservaActual);
 				}else {
@@ -128,12 +126,10 @@ public class ReservaRestController {
 		
 	}
 
-	
 
-
-	@DeleteMapping("/reservas/{id}")
-	public void delete(@PathVariable Long id) {
-		reservaService.delete(id);
+	@PostMapping("/anularReserva/{id}")
+	public void delete(@RequestBody Reserva reserva,@PathVariable Long id) throws Exception{
+		reservaService.eliminarReserva(reserva, id);
 	}
 		
 	@GetMapping("/reservas-fecha/{fecha}")

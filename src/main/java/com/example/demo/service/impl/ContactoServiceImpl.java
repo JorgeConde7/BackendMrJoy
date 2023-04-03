@@ -52,7 +52,7 @@ public class ContactoServiceImpl implements ContactoService {
 				Optional<Contacto> contactoActual= contactoRepository.findById(idContacto);
 				Contacto contacto= contactoActual.get();
 				
-			if(contacto.getEstado()==null) {
+			if(contacto.getEstado()==null || contacto.getEstado().equals(Constantes.ESTADO_REGISTRADO) ) {
 				contacto.setEstado(Constantes.ESTADO_RESUELTO);
 				contacto.setRespuestaAtencion(model.getRespuestaAtencion());
 				contacto.setFechaAtencion(utilitarios.ObtenerFechaActual());

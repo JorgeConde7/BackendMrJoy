@@ -4,12 +4,11 @@ public class Constantes {
 
 	public final static String FlAG_EMPLEADO="1";
 	public final static String FLAG_CLIENTE="0";
-	public final static String FLAG_ADMIN="2";
 	public final static String VALOR_EMPLEADO="empleado";
 	public final static String VALOR_CLIENTE="cliente";
 	public final static String VALOR_ADMIN="admin";
 	
-	public final static String ESTADO_RESERVA_CANCELADO="cancelado";
+	public final static String ESTADO_RESERVA_ANULADO="anulado";
 	public final static String ESTADO_RESERVA_VIGENTE="vigente";
 	public final static String ESTADO_RESERVA_CADUCADO="caducado";
 	
