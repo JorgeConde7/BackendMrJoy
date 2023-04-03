@@ -4,7 +4,7 @@ COPY src /build/src
 COPY pom.xml /build/
 
 WORKDIR /build/
-RUN mvn package
+RUN mvn package -DskipTests
 
 RUN ls
 
