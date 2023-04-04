@@ -126,12 +126,12 @@ public class ReservaServiceImpl implements ReservaService {
 				}
 				
 				if ( (login.getTipouser().equals(Constantes.VALOR_CLIENTE) || 
-						login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias > 2) {
+						login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias <= 2) {
 					
 					reservaActual.setEstado(Constantes.ESTADO_RESERVA_ANULADO);
 					setUsuarioModificacion(reserva, reservaActual);
 					reservaRepository.save(reservaActual);
-					return true;
+					throw new MrJoyException("COD03","Se anulo la reserva correctamente. Se realizará la devolucion del dinero en un plazo de 2 dias habiles.");
 				}else {
 					throw new MrJoyException("COD03","La reserva no se puede anular");
 				}
@@ -158,11 +158,11 @@ public class ReservaServiceImpl implements ReservaService {
 		}
 	}
 
-	private int CalcularDiferenciaDias(Reserva reserva) {
+	private int CalcularDiferenciaDias(Reserva reservaActual) {
 		Calendar calInicio = Calendar.getInstance();
 		Calendar calFin = Calendar.getInstance();
-		calInicio.setTime(reserva.getFechaRegistro());
-		calFin.setTime(reserva.getFechaModificacion());
+		calInicio.setTime(reservaActual.getFechaRegistro());
+		calFin.setTime(reservaActual.getFechaReserva());
 		
 		long difMillis = calFin.getTimeInMillis() - calInicio.getTimeInMillis();
 		int difDias = (int) (difMillis / (1000 * 60 * 60 * 24));

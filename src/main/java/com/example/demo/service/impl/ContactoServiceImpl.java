@@ -39,7 +39,16 @@ public class ContactoServiceImpl implements ContactoService {
 	
 	@Override
 	public Contacto save(Contacto contacto) throws Exception {
-		contacto.setFechaRegistro(utilitarios.ObtenerFechaActual());
+		
+		int maxConsultasPorDia = 3;
+	    List<Contacto> consultas= contactoRepository.findByCorreoAndFechaRegistroAndEstado(contacto.getCorreo(),utilitarios.ObtenerFechaActual(), Constantes.ESTADO_REGISTRADO);
+
+
+	    if(consultas.size()>=maxConsultasPorDia) {
+	    	 throw new MrJoyException("COD10","Ha alcanzado el máximo de 3 consultas permitidas para hoy");
+	    }
+	    
+	    contacto.setFechaRegistro(utilitarios.ObtenerFechaActual());
 		contacto.setEstado(Constantes.ESTADO_REGISTRADO);
 
 		return contactoRepository.save(contacto);
