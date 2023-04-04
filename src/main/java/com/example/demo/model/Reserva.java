@@ -54,10 +54,15 @@ public class Reserva implements Serializable
 	private int idPaquete;
 	@Column(name="id_login")
 	private int idLogin;
+	@Column(name="motivo_anulacion")
+	private String motivoAnulacion;
+	@Column(name="diferencia_pagar")
+	private double diferenciaPagar;
 	@Column(name="fecha_modifacion")
 	private Date fechaModificacion;
 	@Column(name="usuario_modifacion")
 	private String usuarioModificacion;
+	
 	
 	
 	public Long getIdReserva() {
@@ -174,6 +179,19 @@ public class Reserva implements Serializable
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
+	public String getMotivoAnulacion() {
+		return motivoAnulacion;
+	}
+	public void setMotivoAnulacion(String motivoAnulacion) {
+		this.motivoAnulacion = motivoAnulacion;
+	}
+	public double getDiferenciaPagar() {
+		return diferenciaPagar;
+	}
+	public void setDiferenciaPagar(double diferenciaPagar) {
+		this.diferenciaPagar = diferenciaPagar;
+	}
+
 	
 
 	

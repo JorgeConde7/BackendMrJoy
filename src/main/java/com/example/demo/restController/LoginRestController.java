@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.DataResponseDTO;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.Login;
-import com.example.demo.model.response.DataResponse;
 import com.example.demo.repository.LoginRepository;
 import com.example.demo.service.LoginService;
 import com.example.demo.util.Constantes;
@@ -33,8 +33,8 @@ public class LoginRestController {
 
 
 	@GetMapping("login/{user}/{contrasenia}/{tipouser}")
-	public DataResponse<String> auth(@PathVariable String user, @PathVariable String contrasenia,@PathVariable String tipouser) {
-		DataResponse<String> response = new DataResponse<>();
+	public DataResponseDTO<String> auth(@PathVariable String user, @PathVariable String contrasenia,@PathVariable String tipouser) {
+		DataResponseDTO<String> response = new DataResponseDTO<>();
 					
 		try {
 			

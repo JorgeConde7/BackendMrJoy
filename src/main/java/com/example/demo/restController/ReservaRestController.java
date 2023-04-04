@@ -1,20 +1,15 @@
 package com.example.demo.restController;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.temporal.TemporalAmount;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,19 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.TotalVentasDTO;
+import com.example.demo.dto.DataResponseDTO;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Empleado;
 import com.example.demo.model.Login;
-import com.example.demo.model.Paquetes;
 import com.example.demo.model.Reserva;
-import com.example.demo.model.response.DataResponse;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.EmpleadoRespository;
 import com.example.demo.repository.LoginRepository;
-import com.example.demo.service.PaqueteService;
 import com.example.demo.service.ReservaService;
 import com.example.demo.util.Constantes;
 import com.example.demo.util.Utilitarios;
@@ -71,7 +63,6 @@ public class ReservaRestController {
 
 	@PostMapping("/reservas")
 	public ResponseEntity<?> guardarReserva(@RequestBody Reserva reserva) throws Exception {
-		DataResponse<String> response = new DataResponse<>();
 		try{
 			Reserva newReserva = reservaService.guardarReserva(reserva);
             return ResponseEntity.status(HttpStatus.OK).body(newReserva);
@@ -82,22 +73,22 @@ public class ReservaRestController {
 
 	// actualizar
 	@PutMapping("/reservas/{id}")
-	public Reserva update(@RequestBody Reserva reserva, @PathVariable Long id) throws Exception {
+	public DataResponseDTO<String> actualizarReserva(@RequestBody Reserva reserva, @PathVariable Long id) throws Exception {
+		DataResponseDTO<String> response = new DataResponseDTO<>();
 		try {
 			Reserva reservaActual = reservaService.findById(id);										
-			Utilitarios utilitarios= new Utilitarios();
-			Login login= new Login();			
+			Utilitarios utilitarios= new Utilitarios();		
 		
 			if(reservaActual.getEstado().equals(Constantes.ESTADO_RESERVA_VIGENTE)) {
 				
-				Optional<Login> datosLogin=loginRepository.findById((long) reservaActual.getIdLogin());
-				login=datosLogin.get();			
+				Login datosLogin=loginRepository.findById((long) reserva.getIdLogin()).orElse(null);
+		
 				reservaActual.setFechaModificacion(utilitarios.ObtenerFechaActual());
-				
+				/*reservaActual.setHasEmail(false);*/
 				int difDias = CalcularDiferenciaDias(reservaActual);	
-				
-				if( (login.getTipouser().equals(Constantes.VALOR_CLIENTE) || 
-						login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias > 6) {
+		
+				if( (datosLogin.getTipouser().equals(Constantes.VALOR_ADMIN))) {
+					
 					reservaActual.setFechaReserva(reserva.getFechaReserva());
 					reservaActual.setHora(reserva.getHora());
 					reservaActual.setEmail(reserva.getEmail());
@@ -105,11 +96,40 @@ public class ReservaRestController {
 					reservaActual.setTelefono(reserva.getTelefono());
 					reservaActual.setIdPaquete(reserva.getIdPaquete());
 					reservaActual.setAcompaniante(reserva.getAcompaniante());
+					double diferencia= reserva.getTotalPago()-reservaActual.getTotalPago();
 					reservaActual.setTotalPago(reserva.getTotalPago());
-						
-					DiferenciarUsuarioModificacion(reserva);
 					
-					return reservaService.guardarReserva(reservaActual);
+					reservaActual.setDiferenciaPagar(diferencia);	
+					DiferenciarUsuarioModificacion(reserva,reservaActual);
+					reservaService.guardarReserva(reservaActual);
+					response.setStatus(200);
+					response.setMessage("Se actualizo la reserva correctamente \n Diferencia a pagar/devolver :"+diferencia);
+					
+				    return response;
+					
+				}
+				
+				if( (datosLogin.getTipouser().equals(Constantes.VALOR_CLIENTE) || 
+						datosLogin.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias > 6) {
+					
+					reservaActual.setFechaReserva(reserva.getFechaReserva());
+					reservaActual.setHora(reserva.getHora());
+					reservaActual.setEmail(reserva.getEmail());
+					reservaActual.setCantPersonas(reserva.getCantPersonas());
+					reservaActual.setTelefono(reserva.getTelefono());
+					reservaActual.setIdPaquete(reserva.getIdPaquete());
+					reservaActual.setAcompaniante(reserva.getAcompaniante());
+					double diferencia= reserva.getTotalPago()-reservaActual.getTotalPago();
+					reservaActual.setTotalPago(reserva.getTotalPago());
+					
+					reservaActual.setDiferenciaPagar(diferencia);	
+					DiferenciarUsuarioModificacion(reserva,reservaActual);
+					reservaService.guardarReserva(reservaActual);
+					response.setStatus(200);
+					response.setMessage("Se actualizo la reserva correctamente \n Diferencia a pagar/devolver :"+diferencia);
+					
+				    return response;
+					
 				}else {
 					throw new MrJoyException("COD03","Estimado cliente, su reserva se no se puede modificar ya que esta a 1 semana de empezar");
 				}			
@@ -126,10 +146,23 @@ public class ReservaRestController {
 		
 	}
 
+	
+	private void DiferenciarUsuarioModificacion(Reserva reserva,Reserva reservaActual) {
+
+		if(reserva.getFlagTipoReserva().equals(Constantes.FLAG_CLIENTE)) {
+			Cliente	cliente=clienteRepository.findByIdLogin((long) reserva.getIdLogin());
+			reservaActual.setUsuarioModificacion(cliente.getNombres()+" "+cliente.getApePaterno());
+		}
+		
+		if(reserva.getFlagTipoReserva().equals(Constantes.FlAG_EMPLEADO)) {
+			Empleado empleado= empleadoRespository.findByIdLogin((long) reserva.getIdLogin());
+			reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
+		}
+	}
 
 	@PostMapping("/anularReserva/{id}")
-	public void delete(@RequestBody Reserva reserva,@PathVariable Long id) throws Exception{
-		reservaService.eliminarReserva(reserva, id);
+	public DataResponseDTO<String>  eliminarReserva(@RequestBody Reserva reserva,@PathVariable Long id) throws Exception{
+		return reservaService.eliminarReserva(reserva, id);
 	}
 		
 	@GetMapping("/reservas-fecha/{fecha}")
@@ -158,18 +191,6 @@ public class ReservaRestController {
 		return difDias;
 	}
 	
-	private void DiferenciarUsuarioModificacion(Reserva reservaActual) {
-		Cliente cliente;
-		Empleado empleado;
-		if(reservaActual.getFlagTipoReserva().equals(Constantes.FLAG_CLIENTE)) {
-			cliente=clienteRepository.findByIdLogin((long) reservaActual.getIdLogin());
-			reservaActual.setUsuarioModificacion(cliente.getNombres()+" "+cliente.getApePaterno());
-		}
-		
-		if(reservaActual.getFlagTipoReserva().equals(Constantes.FlAG_EMPLEADO)) {
-			empleado= empleadoRespository.findByIdLogin((long) reservaActual.getIdLogin());
-			reservaActual.setUsuarioModificacion(empleado.getNombres()+" "+empleado.getApellidos());
-		}
-	}
+	
 	
 }

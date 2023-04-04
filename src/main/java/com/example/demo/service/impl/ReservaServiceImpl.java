@@ -4,13 +4,16 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.DataResponseDTO;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.Cliente;
@@ -79,6 +82,7 @@ public class ReservaServiceImpl implements ReservaService {
 			if(reserva.getFechaRegistro()==null) {
 				reserva.setFechaRegistro(utilitarios.ObtenerFechaActual());
 				reserva.setEstado(Constantes.ESTADO_RESERVA_VIGENTE);
+				reserva.setDiferenciaPagar(0);
 			}
 			reserva.setHasEmail(false);
 		
@@ -103,7 +107,7 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	@Override
-	public Boolean eliminarReserva(Reserva reserva, Long idReserva) throws Exception{
+	public DataResponseDTO<String> eliminarReserva(Reserva reserva, Long idReserva) throws Exception{
 		Utilitarios utilitarios= new Utilitarios();
 
 		try {
@@ -113,25 +117,37 @@ public class ReservaServiceImpl implements ReservaService {
 				throw new MrJoyException("COD07","No se puede eliminar una reserva caducada o anulada");
 			}
 			
+			DataResponseDTO<String> response = new DataResponseDTO<>();
+			
 				Login login=loginRepository.findById((long) reserva.getIdLogin()).orElse(null);
+				
 				reservaActual.setFechaModificacion(utilitarios.ObtenerFechaActual());
 				int difDias=CalcularDiferenciaDias(reservaActual);
 				
 				if((login.getTipouser().equals(Constantes.VALOR_ADMIN))){
 					
 					reservaActual.setEstado(Constantes.ESTADO_RESERVA_ANULADO);
+					reservaActual.setMotivoAnulacion(reserva.getMotivoAnulacion());
 					setUsuarioModificacion(reserva, reservaActual);
-					 reservaRepository.save(reservaActual);
-					 return true;
+					reservaRepository.save(reservaActual);
+					
+					response.setStatus(200);
+					response.setMessage("Se anulo la reserva correctamente. Se realizará la devolucion del dinero en un plazo de 2 dias habiles.");
+						
+					return response;
 				}
 				
 				if ( (login.getTipouser().equals(Constantes.VALOR_CLIENTE) || 
 						login.getTipouser().equals(Constantes.VALOR_EMPLEADO)) && difDias <= 2) {
 					
 					reservaActual.setEstado(Constantes.ESTADO_RESERVA_ANULADO);
+					reservaActual.setMotivoAnulacion(reserva.getMotivoAnulacion());
 					setUsuarioModificacion(reserva, reservaActual);
 					reservaRepository.save(reservaActual);
-					throw new MrJoyException("COD03","Se anulo la reserva correctamente. Se realizará la devolucion del dinero en un plazo de 2 dias habiles.");
+					response.setStatus(200);
+					response.setMessage("Se anulo la reserva correctamente. Se realizará la devolucion del dinero en un plazo de 2 dias habiles.");
+						
+					return response;
 				}else {
 					throw new MrJoyException("COD03","La reserva no se puede anular");
 				}
@@ -162,7 +178,7 @@ public class ReservaServiceImpl implements ReservaService {
 		Calendar calInicio = Calendar.getInstance();
 		Calendar calFin = Calendar.getInstance();
 		calInicio.setTime(reservaActual.getFechaRegistro());
-		calFin.setTime(reservaActual.getFechaReserva());
+		calFin.setTime(reservaActual.getFechaModificacion());
 		
 		long difMillis = calFin.getTimeInMillis() - calInicio.getTimeInMillis();
 		int difDias = (int) (difMillis / (1000 * 60 * 60 * 24));
