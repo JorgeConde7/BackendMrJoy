@@ -131,7 +131,7 @@ public class ReservaRestController {
 				    return response;
 					
 				}else {
-					throw new MrJoyException("COD03","Estimado cliente, su reserva se no se puede modificar ya que esta a 1 semana de empezar");
+					throw new MrJoyException("COD03","Estimado cliente, su reserva se no se puede modificar ya que esta a menos de 1 semana de empezar");
 				}			
 			}
 			else {
