@@ -92,8 +92,8 @@ public class ClienteServiceImpl implements ClienteService{
 		clienteDato.setGenero(clienteDTO.getGenero());
 		clienteDato.setIdLogin(datoLogin.getIdLogin());
 		clienteDato.setFechaNacimiento(clienteDTO.getFechaNacimiento());
-				
-		Cliente clienteoGuardado=clienteRepository.save(clienteDato);
+		
+		clienteRepository.save(clienteDato);
 				
 		return ResponseEntity.status(HttpStatus.OK).body(clienteDTO);
 	}

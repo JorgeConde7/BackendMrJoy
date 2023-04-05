@@ -28,26 +28,22 @@ public class EmpleadoServceImpl implements EmpleadoService {
 	@Override
 	@Transactional(readOnly=true)
 	public List<Empleado> findAll() {
-		// TODO Auto-generated method stub
 		return (List<Empleado>)empleadoRespository.findAll();
 	}
 	@Transactional
 	@Override
 	public Empleado findById(Long id) {
-		// TODO Auto-generated method stub
 		return empleadoRespository.findById(id).orElse(null);
 	}
 	@Transactional
 	@Override
 	public Empleado save(Empleado empleado) {
-		// TODO Auto-generated method stub
 		return empleadoRespository.save(empleado);
 	}
 
 	@Override
 	@Transactional
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
 		empleadoRespository.deleteById(id);
 	}
 	
@@ -79,8 +75,7 @@ public class EmpleadoServceImpl implements EmpleadoService {
 		empleadoDato.setTelefono(empleadoDTO.getTelefono());
 		empleadoDato.setTurno(empleadoDTO.getTurno());
 		empleadoDato.setIdLogin(DatoLogin.getIdLogin());
-				
-		Empleado empleadoGuardado=empleadoRespository.save(empleadoDato);
+				empleadoRespository.save(empleadoDato);
 		
 				
 		return ResponseEntity.status(HttpStatus.OK).body(empleadoDTO);

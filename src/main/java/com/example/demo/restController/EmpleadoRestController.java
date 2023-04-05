@@ -32,27 +32,18 @@ public class EmpleadoRestController {
 
 	}
 
-	// mostrar
 	@GetMapping("/empleados/{id}")
 	public Empleado show(@PathVariable Long id) {
 		return empleadoService.findById(id);
 	}
 
-	// crear id
-	@PostMapping("/empleados")
-	public String create(@RequestBody Empleado empleado) {
-		if (empleado.getNombres()!=""&& empleado.getApellidos()!=""&&
-				empleado.getTelefono()!=""&&empleado.getFechaNacimiento()!=null&&
-				empleado.getTurno()!="")
-		{ 
-			empleadoService.save(empleado);
-			return "empleado registrado correctamente";
-		}
-		else
-			return("registra bien imbecil");		
+	@PostMapping("/guardarEmpleado")
+	public ResponseEntity<EmpleadoDTO> createEmpleado(@RequestBody EmpleadoDTO empleadoDTO) {
+		
+			return empleadoService.guardarDatos(empleadoDTO);
+		
 	}
-
-	// actualizar
+	
 	@PutMapping("/empleados/{id}")
 	public Empleado update(@RequestBody Empleado empleado, @PathVariable Long id) {
 		Empleado empleadoActual = empleadoService.findById(id);
@@ -64,16 +55,11 @@ public class EmpleadoRestController {
 		empleadoActual.setTurno(empleado.getTurno());
 		return empleadoService.save(empleadoActual);
 	}
-	//eliminar
+	
 	@DeleteMapping("/empleados/{id}")
 	public void delete(@PathVariable Long id) {
 		empleadoService.delete(id);
 	}
 	
-	@PostMapping("/guardarEmpleado")
-	public ResponseEntity<EmpleadoDTO> createEmpleado(@RequestBody EmpleadoDTO empleadoDTO) {
-		
-			return empleadoService.guardarDatos(empleadoDTO);
-		
-		}
-	}
+}
+

@@ -44,9 +44,16 @@ public class ClienteRestController {
 		return clienteService.findByIdLogin(id);
 	}
 	
-	@PostMapping("/clientes")
-	public Cliente create(@RequestBody Cliente cliente) {
-		return clienteService.save(cliente);
+	@PostMapping("/guardarCliente")
+	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) 
+	{
+		try {
+			return clienteService.guardarDatos(clienteDTO);
+		}catch(MrJoyException e) {
+			throw e;
+		}catch (Exception e) {
+			throw new ErrorException();
+		}
 	}
 
 	@PutMapping("/clientes/{id}")
@@ -68,16 +75,6 @@ public class ClienteRestController {
 	
 
 	
-	@PostMapping("/guardarCliente")
-	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) 
-	{
-		try {
-			return clienteService.guardarDatos(clienteDTO);
-		}catch(MrJoyException e) {
-			throw e;
-		}catch (Exception e) {
-			throw new ErrorException();
-		}
-	}
+	
 	
 }
