@@ -9,4 +9,5 @@ import com.example.demo.model.Empleado;
 public interface EmpleadoRespository extends JpaRepository<Empleado,Long>{
 
 	public Empleado findByIdLogin(Long idLogin);
+	boolean  existsByCorreo(String correo);
 }

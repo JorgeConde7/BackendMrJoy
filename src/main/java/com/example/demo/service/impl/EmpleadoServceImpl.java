@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.EmpleadoDTO;
+import com.example.demo.exception.MrJoyException;
 import com.example.demo.model.Empleado;
 import com.example.demo.model.Login;
 import com.example.demo.repository.EmpleadoRespository;
@@ -53,6 +54,14 @@ public class EmpleadoServceImpl implements EmpleadoService {
 
 	@Override
 	public ResponseEntity<EmpleadoDTO> guardarDatos(EmpleadoDTO empleadoDTO) {
+		
+		if (loginRepository.existsByUsuario(empleadoDTO.getUsuario())) {
+		    throw new MrJoyException("COD05","Ya existe un usuario, intente con otro");
+		}
+		
+		if (empleadoRespository.existsByCorreo(empleadoDTO.getCorreo())) {
+		    throw new MrJoyException("COD05","Ya existe un correo asociado, intente con otro");
+		}		
 		
 		Login login = new Login();
 		login.setUsuario(empleadoDTO.getUsuario());
