@@ -190,7 +190,7 @@ public class ReservaServiceImpl implements ReservaService {
 	
 	@Override
 	public List<Reserva> listarPorIdLogin(int idLogin) {
-		return (List<Reserva>) reservaRepository.findByIdLogin(idLogin);
+		return (List<Reserva>) reservaRepository.findByIdLoginOrderByEstadoDesc(idLogin);
 	}
 
 	@Override

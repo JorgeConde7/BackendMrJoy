@@ -8,9 +8,10 @@ public class Constantes {
 	public final static String VALOR_CLIENTE="cliente";
 	public final static String VALOR_ADMIN="admin";
 	
-	public final static String ESTADO_RESERVA_ANULADO="anulado";
 	public final static String ESTADO_RESERVA_VIGENTE="vigente";
+	public final static String ESTADO_RESERVA_EN_CURSO="en curso";
 	public final static String ESTADO_RESERVA_CADUCADO="caducado";
+	public final static String ESTADO_RESERVA_ANULADO="anulado";
 	
 	public final static String MENSAJE_ERROR_500="Ocurrio un error al procesar la solicitud";
 	public final static String COD_ERROR_500="COD01";
