@@ -103,7 +103,7 @@ public class ReservaRestController {
 					DiferenciarUsuarioModificacion(reserva,reservaActual);
 					reservaService.guardarReserva(reservaActual);
 					response.setStatus(200);
-					response.setMessage("Se actualizo la reserva correctamente \n Diferencia a pagar/devolver :"+diferencia);
+					response.setMessage("Se actualizo la reserva correctamente. Diferencia a pagar/devolver :"+diferencia);
 					
 				    return response;
 					
@@ -126,7 +126,7 @@ public class ReservaRestController {
 					DiferenciarUsuarioModificacion(reserva,reservaActual);
 					reservaService.guardarReserva(reservaActual);
 					response.setStatus(200);
-					response.setMessage("Se actualizo la reserva correctamente \n Diferencia a pagar/devolver :"+diferencia);
+					response.setMessage("Se actualizo la reserva correctamente. Diferencia a pagar/devolver :"+diferencia);
 					
 				    return response;
 					
