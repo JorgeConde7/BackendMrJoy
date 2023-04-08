@@ -21,7 +21,7 @@ public class Job {
 	
 	Utilitarios utilitarios= new Utilitarios();
 	
-	@Scheduled(cron = "0 1-20 9-20 * * *", zone = "GMT-5")   // se ejecutará todo los dias  a las 9 con 1 minuto cada 1 hora
+	@Scheduled(cron = "0 1-2 9-20 * * *", zone = "GMT-5")   // se ejecutará todo los dias  a las 9 con 1 minuto cada 1 hora
 	public void actualizarReservaVigenteaEnCurso() {
 		
 		String horaActual = utilitarios.ObtenerHoraActual();
